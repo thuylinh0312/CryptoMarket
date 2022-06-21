@@ -6,7 +6,7 @@ import {View, Text} from 'react-native'
 
 const HomeScreen = () => {
   return (
-    <View style={{flex: 1, backgroundColor: 'red'}}>
+    <View style={{flex: 1, backgroundColor: 'blue'}}>
       <Text>Home Screen</Text>
     </View>
     /*
