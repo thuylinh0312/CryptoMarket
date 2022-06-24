@@ -1,28 +1,27 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {ActivityIndicator, View, FlatList, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import { fetchCoinList } from '../../actions/coinListAction'
 import { CoinListItem } from './components/coinListItem'
-
-var DATA = [
-  {id: "tt1", title: "My Watchlists"},
-  {id: "tt2", title: "USD"},
-  {id: "tt3", title: "Sort by Rank"},
-  {id: "tt4", title: "%(24h)"},
-  {id: "tt5", title: "All Cryptocurrencies"},
-];
+import { HeaderOptions } from './components/HeaderOptions'
+import { OptionModal } from './components/OptionModal'
 
 const CoinListScreen = () => {
+  const modalRef = useRef(null)
   const dispatch = useDispatch() 
   const list = useSelector(state => {
       return state.coinList.list
   })
   const getCoinList = async (start) => { 
-      dispatch(fetchCoinList({start}))
+      dispatch(fetchCoinList({start})) 
   }
 
   useEffect(() => {
       getCoinList(1)
+      return () => {
+        // Function này được chạy khi screen bị unmount
+        // Khi screen unmount thì mình nên gọi 1 action để xóa list coins
+      }
   }, []) 
 
   const ItemDivider = () => {
@@ -31,47 +30,26 @@ const CoinListScreen = () => {
     );
   }
 
-  const [selectedId, setSelectedId] = useState(null);
-
   return (
     <View style={styles.container}>
-      <View style={styles.top}>
+      <HeaderOptions onPressOption={(id) => modalRef.current.open(id)} />
+      {list.length === 0 ? <ActivityIndicator /> : (
         <FlatList
-
-          data={DATA}
+          keyExtractor={(item) => item.id + item.name}
+          onEndReached={() => getCoinList(list.length + 1)}
+          data={list ?? []}
           renderItem={({item, index}) => {
             return (
-              <TouchableOpacity 
-                onPress={()=>setSelectedId(item.id)}
-                key={item.id}
-              >
-                <Text style={styles.title}>{item.title}</Text>
-              </TouchableOpacity>              
+              <View style = {{paddingTop: 8, paddingBottom: 8}}>
+                <CoinListItem item={item} />
+              </View>                
             )     
           }}
-          horizontal 
+          ItemSeparatorComponent={ItemDivider}
+          ListFooterComponent={<ActivityIndicator />}
         />
-      </View>
-      
-
-      {list.length === 0 ? <ActivityIndicator /> : (
-      <FlatList
-        onEndReached={() => getCoinList(list.length + 1)}
-        data={list ?? []} 
-        renderItem={({item, index}) => {
-          return (
-            <View 
-              style = {{paddingTop: 8, paddingBottom: 8}}
-              key={item.id} 
-            >
-              <CoinListItem item={item} />
-            </View>                
-          )     
-        }}
-        ItemSeparatorComponent={ItemDivider}
-        ListFooterComponent={<ActivityIndicator />}
-      />
       )}
+      <OptionModal ref={modalRef} />
     </View>
   )
 }

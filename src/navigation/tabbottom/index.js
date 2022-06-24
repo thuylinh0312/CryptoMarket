@@ -6,7 +6,7 @@ import CoinListScreen from '../../screens/CoinListScreen';
 import PortfolioScreen from '../../screens/PortfolioScreen';
 import FeedScreen from '../../screens/FeedScreen';
 import SettingScreen from '../../screens/SettingScreen';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 // import { MaterialCommunityIcons } from '@expo/vector-icons';
 
