@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {View, Image, Text, StyleSheet} from 'react-native'
 import { images } from '../../../../assets/images'
 import { SvgCssUri } from 'react-native-svg';
@@ -10,25 +10,35 @@ export const CoinListItem = ({item}) => {
     return state.coinListOption.DATA
   })
 
-  let percent;
-  if(DATA[3].title === "%(24h)"){
-    percent = item.quote.USD.percent_change_24h 
-  }else {
-    if(DATA[3].title === "%(1h)"){
-      percent = item.quote.USD.percent_change_1h 
-    }else {
-      percent = item.quote.USD.percent_change_7d 
+  // let percent;
+  const percent = useMemo(()=>{
+    switch(DATA[3].title){
+      case "%(24h)":
+        return item.quote.USD.percent_change_24h 
+      case "%(1h)":
+        return item.quote.USD.percent_change_1h 
+      case "%(7d)":
+        return item.quote.USD.percent_change_7d
     }
-  }
+  },[])
+  // if(DATA[3].title === "%(24h)"){
+  //   percent = item.quote.USD.percent_change_24h 
+  // }else {
+  //   if(DATA[3].title === "%(1h)"){
+  //     percent = item.quote.USD.percent_change_1h 
+  //   }else {
+  //     percent = item.quote.USD.percent_change_7d 
+  //   }
+  // }
   return (
     <View style = {styles.container}>
       <Image 
         style={styles.image}
         source={{uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png?_=5bcdbc6`}}
       />
-      <View style={{width:"35%"}}>
-        <View style = {{flexDirection: "row", width:"100%"}}>
-          <Text style={{fontSize: 10 , fontWeight:"bold",width:"65%" }}>{item.name}</Text>
+      <View style={{flex: 1, backgroundColor: "red"}}>
+        <View style = {{flexDirection: "row", width:"100%", flex: 1, width: "100%", justifyContent:"space-between", backgroundColor:"yellow"}}>
+          <Text style={{fontSize: 10 , fontWeight:"bold",width:"30%" , backgroundColor: "white"}}>{item.name}</Text>
           <View style={{ marginVertical: -13}}>
             <SvgCssUri
               width="60"
@@ -38,7 +48,7 @@ export const CoinListItem = ({item}) => {
 
 
 
-          
+          {/* <View style = {{flex: 1}}></View> */}
           <View style = {{textAlign:'right'}}>
             <Text style={{fontSize: 9, fontWeight:"bold"}}>${item.quote.USD.price.toFixed(2)}</Text>
           </View>

@@ -1,15 +1,22 @@
 import React, { useEffect } from 'react'
 import {StyleSheet, View, FlatList, TouchableOpacity, Text} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
+import Icon from 'react-native-vector-icons/AntDesign';
+
 
 
 export const HeaderOptions = React.memo(({onPressOption}) => {
   const title = useSelector(state => {
     return state.coinListOption.DATA
   })
+
+
+
   return (
     <View style={styles.top}>
-        <FlatList
+        <FlatList 
+          contentContainerStyle= {{alignItems: "center"}}
+          ListHeaderComponent={ <Icon name="staro" size={15} color={ "black"}/>}
           keyExtractor={(item) => item.id.toString()}
           data={title}
           renderItem={({item, index}) => {

@@ -1,11 +1,14 @@
+const CURRENCY_LIST =["USD", "BTC","VND"]
 const initialState = {
     DATA: [
         {id: "tt1", title: "My Watchlists"},
-        {id: "tt2", title: "USD"},
+        {id: "tt2", title:  CURRENCY_LIST[0]},
         {id: "tt3", title: "Sort by Rank"},
         {id: "tt4", title: "%(24h)"},
         {id: "tt5", title: "All Cryptocurrencies"},
     ],
+   
+
 };
 
 const coinListOptionReducer = (state = initialState, action) => {
@@ -52,6 +55,33 @@ const coinListOptionReducer = (state = initialState, action) => {
                 ...state,
                 DATA: lookingFor
             }
+        case "TOGGLE_CURRENCY":
+            const currency = [...state.DATA]
+            const index = CURRENCY_LIST.findIndex((value)=>{
+                return value === currency[1].title
+            })
+            if(index < CURRENCY_LIST.length-1){
+                currency[1].title = CURRENCY_LIST[index +1]
+            }else{
+                currency[1].title = CURRENCY_LIST[0]
+            }
+           
+
+            
+            
+            // if(currency[1].title === CURRENCY_LIST[index]){
+            //     currency[1].title = CURRENCY_LIST[index+1]
+            
+            // }else{      
+            //     currency[1].title = CURRENCY_LIST[index]
+
+            // }
+            
+            return {
+                ...state,
+                DATA: currency
+            }
+            
         default:
             return state;
     }

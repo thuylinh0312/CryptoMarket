@@ -3,6 +3,7 @@ import {ActivityIndicator, View, FlatList, StyleSheet, Text, TouchableOpacity} f
 import {useSelector, useDispatch} from 'react-redux'
 import { fetchCoinList } from '../../actions/coinListAction'
 import { resetCoinList } from '../../actions/coinListAction'
+import { toggleCurrency } from '../../actions/coinListAction'
 
 import { CoinListItem } from './components/coinListItem'
 import { HeaderOptions } from './components/HeaderOptions'
@@ -33,10 +34,22 @@ const CoinListScreen = () => {
       <View style={{ height: 1, width: "100%",backgroundColor: "lightgray"}}/>
     );
   }
+  const checkId = (id) => {
+    switch(id){
+      case 'tt2':
+        dispatch(toggleCurrency())
 
+        break
+      case 'tt3': case 'tt4' : case 'tt5' : 
+        modalRef.current.open(id)
+        break
+
+      
+    
+  }}
   return (
     <View style={styles.container}>
-      <HeaderOptions onPressOption={(id) => modalRef.current.open(id)} />
+      <HeaderOptions onPressOption={(id) => checkId(id)} />
       {list.length === 0 ? <ActivityIndicator /> : (
         <FlatList
           keyExtractor={(item) => item.id.toString()}

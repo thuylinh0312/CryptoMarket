@@ -14,3 +14,6 @@ export const lookingForCoinList = ({ lookingForValue}) => ({
   lookingForValue,
   type: 'LOOKING_FOR_COIN_LIST'
 })
+export const toggleCurrency = () => ({
+  type: 'TOGGLE_CURRENCY'
+})
