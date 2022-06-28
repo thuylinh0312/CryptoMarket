@@ -2,31 +2,49 @@ import React from 'react'
 import {View, Image, Text, StyleSheet} from 'react-native'
 import { images } from '../../../../assets/images'
 import { SvgCssUri } from 'react-native-svg';
+import {useSelector, useDispatch} from 'react-redux'
 
 export const CoinListItem = ({item}) => {
+
+  const DATA = useSelector(state => {
+    return state.coinListOption.DATA
+  })
+
+  let percent;
+  if(DATA[3].title === "%(24h)"){
+    percent = item.quote.USD.percent_change_24h 
+  }else {
+    if(DATA[3].title === "%(1h)"){
+      percent = item.quote.USD.percent_change_1h 
+    }else {
+      percent = item.quote.USD.percent_change_7d 
+    }
+  }
   return (
     <View style = {styles.container}>
       <Image 
         style={styles.image}
         source={{uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png?_=5bcdbc6`}}
       />
-      <View style={{width:"33%"}}>
+      <View style={{width:"35%"}}>
         <View style = {{flexDirection: "row", width:"100%"}}>
-          <Text style={{fontSize: 10 , fontWeight:"bold",width:"60%" }}>{item.name}</Text>
-          <View style={{ marginVertical: -14}}>
-          <SvgCssUri
-            width="60"
-            // height="40"
-            uri={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${item.id}.svg`}
-            />
+          <Text style={{fontSize: 10 , fontWeight:"bold",width:"65%" }}>{item.name}</Text>
+          <View style={{ marginVertical: -13}}>
+            <SvgCssUri
+              width="60"
+              uri={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${item.id}.svg`}
+              />
           </View>
-         
-        
-        </View>
-        
 
-        
-        
+
+
+          
+          <View style = {{textAlign:'right'}}>
+            <Text style={{fontSize: 9, fontWeight:"bold"}}>${item.quote.USD.price.toFixed(2)}</Text>
+          </View>
+          
+        </View>
+
         <View style = {{flexDirection: "row"}}>
           <View style={styles.rank}>
             <Text style={{fontSize: 7, fontWeight:"bold"}}>{item.cmc_rank}</Text>
@@ -36,22 +54,14 @@ export const CoinListItem = ({item}) => {
           </View>
           
 
-          <View style = {styles.day}>
-            {item.quote.USD.percent_change_24h > 0 ?  <Image style = {styles.icon_up} source={images.up}/> : <Image style = {styles.icon_down} source={images.down}/>}
-            <Text style = {styles.percent_change}>{Math.abs(item.quote.USD.percent_change_24h).toFixed(2)}%</Text>
+          <View style = {styles.percent}>
+            {percent > 0 ?  <Image style = {styles.icon_up} source={images.up}/> : <Image style = {styles.icon_down} source={images.down}/>}
+            <Text style = {styles.percent_change}>{Math.abs(percent).toFixed(2)}%</Text>
           </View>
         </View>
 
         
       </View>
-
-      {/* <View >
-      <SvgCssUri
-            width="70"
-            
-            uri={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${item.id}.svg`}
-            />
-      </View> */}
       
     </View> 
   )
@@ -81,15 +91,9 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         backgroundColor: "lightgray"  
     },
-    day: {
+    percent: {
         flexDirection: "row", 
         alignItems: "center",
-    },
-    week: {
-        flexDirection: "row", 
-        alignItems: "center",
-        flex: 1, 
-        justifyContent: 'flex-start'
     },
     percent_change: {
         fontSize: 8 , 

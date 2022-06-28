@@ -16,6 +16,12 @@ const coinListReducer = (state = initialState, action) => {
                 list: state.list.concat(action.list),
                 loading: false
             }
+        case 'RESET_COIN_LIST':
+            return {
+                ...state,
+                list: [],
+                loading: false
+            }
         default:
             return state;
     }

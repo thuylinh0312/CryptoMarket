@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/HomeScreen';
 import CoinListScreen from '../../screens/CoinListScreen';
@@ -7,8 +6,6 @@ import PortfolioScreen from '../../screens/PortfolioScreen';
 import FeedScreen from '../../screens/FeedScreen';
 import SettingScreen from '../../screens/SettingScreen';
 import Icon from 'react-native-vector-icons/AntDesign';
-
-// import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 const Tab = createBottomTabNavigator();
@@ -28,9 +25,8 @@ export const Tabs = () => {
         options={{
           headerShown: false,
           tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="book" size={30} color="#900" />
-            // <MaterialCommunityIcons name="home" color={color} size={size} />
+          tabBarIcon: ({ focused}) => (
+            <Icon name="home" size={30} color={focused ? "blue" : "black"} />
           ),
         }}
       />
@@ -40,9 +36,9 @@ export const Tabs = () => {
         options={{
           headerShown: false,
           tabBarLabel: 'CoinList',
-        //   tabBarIcon: ({ color, size }) => (
-        //     <MaterialCommunityIcons name="home" color={color} size={size} />
-        //   ),
+          tabBarIcon: ({ focused }) => (
+            <Icon name="barschart" size={30} color={focused ? "blue" : "black"}/>
+          ),
         }}
       />
       <Tab.Screen
@@ -51,9 +47,9 @@ export const Tabs = () => {
         options={{
           headerShown: false,
           tabBarLabel: 'Portfolio',
-        //   tabBarIcon: ({ color, size }) => (
-        //     <MaterialCommunityIcons name="home" color={color} size={size} />
-        //   ),
+          tabBarIcon: ({ focused}) => (
+            <Icon name="piechart" size={30} color={focused ? "blue" : "black"}/>
+          ),
         }}
       />
       <Tab.Screen
@@ -62,9 +58,9 @@ export const Tabs = () => {
         options={{
           headerShown: false,
           tabBarLabel: 'Feed',
-        //   tabBarIcon: ({ color, size }) => (
-        //     <MaterialCommunityIcons name="home" color={color} size={size} />
-        //   ),
+          tabBarIcon: ({ focused }) => (
+            <Icon name="wechat" size={30} color={focused ? "blue" : "black"}/>
+          ),
         }}
       />
       <Tab.Screen
@@ -73,22 +69,12 @@ export const Tabs = () => {
         options={{
           headerShown: false,
           tabBarLabel: 'Setting',
-        //   tabBarIcon: ({ color, size }) => (
-        //     <MaterialCommunityIcons name="home" color={color} size={size} />
-        //   ),
+          tabBarIcon: ({ focused }) => (
+            <Icon name="user" size={30} color={focused ? "blue" : "black"}/>
+          ),
         }}
       />
       
     </Tab.Navigator>
   );
 }
-
-
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <MyTabs />
-//     </NavigationContainer>
-//   );
-// }

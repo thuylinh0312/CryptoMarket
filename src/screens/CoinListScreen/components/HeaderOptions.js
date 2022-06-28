@@ -1,23 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {StyleSheet, View, FlatList, TouchableOpacity, Text} from 'react-native'
+import {useSelector, useDispatch} from 'react-redux'
 
-
-const DATA = [
-  {id: "tt1", title: "My Watchlists"},
-  {id: "tt2", title: "USD"},
-  {id: "tt3", title: "Sort by Rank"},
-  {id: "tt4", title: "%(24h)"},
-  {id: "tt5", title: "All Cryptocurrencies"},
-];
 
 export const HeaderOptions = React.memo(({onPressOption}) => {
-  //useSelector
-  
+  const title = useSelector(state => {
+    return state.coinListOption.DATA
+  })
   return (
     <View style={styles.top}>
         <FlatList
           keyExtractor={(item) => item.id.toString()}
-          data={DATA}
+          data={title}
           renderItem={({item, index}) => {
             return (
               <TouchableOpacity
