@@ -3,16 +3,15 @@ import {View, Image, Text, StyleSheet} from 'react-native'
 import { images } from '../../../../assets/images'
 import { SvgCssUri } from 'react-native-svg';
 import {useSelector, useDispatch} from 'react-redux'
+import Icon from 'react-native-vector-icons/AntDesign';
 
 export const CoinListItem = ({item}) => {
-
   const DATA = useSelector(state => {
     return state.coinListOption.DATA
   })
 
-  // let percent;
   const percent = useMemo(()=>{
-    switch(DATA[3].title){
+    switch(DATA[2].title){
       case "%(24h)":
         return item.quote.USD.percent_change_24h 
       case "%(1h)":
@@ -20,25 +19,17 @@ export const CoinListItem = ({item}) => {
       case "%(7d)":
         return item.quote.USD.percent_change_7d
     }
-  },[])
-  // if(DATA[3].title === "%(24h)"){
-  //   percent = item.quote.USD.percent_change_24h 
-  // }else {
-  //   if(DATA[3].title === "%(1h)"){
-  //     percent = item.quote.USD.percent_change_1h 
-  //   }else {
-  //     percent = item.quote.USD.percent_change_7d 
-  //   }
-  // }
+  },[DATA[2].title])
+
   return (
     <View style = {styles.container}>
       <Image 
         style={styles.image}
         source={{uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png?_=5bcdbc6`}}
       />
-      <View style={{flex: 1, backgroundColor: "red"}}>
-        <View style = {{flexDirection: "row", width:"100%", flex: 1, width: "100%", justifyContent:"space-between", backgroundColor:"yellow"}}>
-          <Text style={{fontSize: 10 , fontWeight:"bold",width:"30%" , backgroundColor: "white"}}>{item.name}</Text>
+      <View style={{flex: 1}}>
+        <View style = {{flexDirection: "row", flex: 1, width: "100%", justifyContent:"space-between"}}>
+          <Text style={styles.name}>{item.name}</Text>
           <View style={{ marginVertical: -13}}>
             <SvgCssUri
               width="60"
@@ -46,9 +37,6 @@ export const CoinListItem = ({item}) => {
               />
           </View>
 
-
-
-          {/* <View style = {{flex: 1}}></View> */}
           <View style = {{textAlign:'right'}}>
             <Text style={{fontSize: 9, fontWeight:"bold"}}>${item.quote.USD.price.toFixed(2)}</Text>
           </View>
@@ -68,10 +56,9 @@ export const CoinListItem = ({item}) => {
             {percent > 0 ?  <Image style = {styles.icon_up} source={images.up}/> : <Image style = {styles.icon_down} source={images.down}/>}
             <Text style = {styles.percent_change}>{Math.abs(percent).toFixed(2)}%</Text>
           </View>
-        </View>
-
-        
+        </View> 
       </View>
+      <Icon style={{marginLeft:10}} name="staro" size={15} color="gray"/>
       
     </View> 
   )
@@ -81,7 +68,14 @@ const styles = StyleSheet.create({
     container:{
         flexDirection: "row",
         marginBottom: 5,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    name:{
+      fontSize: 10 , 
+      fontWeight:"bold",
+      width:"30%"
     },
     image: {
         width: 35, 

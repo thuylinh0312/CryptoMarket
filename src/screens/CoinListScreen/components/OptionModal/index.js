@@ -36,11 +36,66 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   const renderModal = useCallback(() => {
     console.log(id)
     switch(id){
-      case 'tt3':
+      case 'tt2':
         return(
-          <Text>abc</Text>
+          <View >
+          <Text style = {{backgroundColor: "lightgray",padding:7}}> Sort By</Text>
+          <View style={{padding:10}}>
+            <TouchableOpacity onPress={()=>{
+              // handlePercentChange({percentValue:"1h"})
+              modalizeRef.current.close() 
+            }}>
+              <Text>Rank</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              onPress={()=>{
+                // handlePercentChange({percentValue:"24h"}) 
+                modalizeRef.current.close() 
+              }}
+              style={{marginVertical:10}}
+            >
+              <Text>% Change</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
+              // handlePercentChange({percentValue:"7d"}) 
+              modalizeRef.current.close() 
+            }}>
+              <Text>Market Cap</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              onPress={()=>{
+                // handlePercentChange({percentValue:"24h"}) 
+                modalizeRef.current.close() 
+              }}
+              style={{marginVertical:10}}
+            >
+              <Text>Volume 24h</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
+              // handlePercentChange({percentValue:"7d"}) 
+              modalizeRef.current.close() 
+            }}>
+              <Text>Circulating Supply</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              onPress={()=>{
+                // handlePercentChange({percentValue:"24h"}) 
+                modalizeRef.current.close() 
+              }}
+              style={{marginVertical:10}}
+            >
+              <Text>Price</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
+              // handlePercentChange({percentValue:"7d"}) 
+              modalizeRef.current.close() 
+            }}>
+              <Text>Name</Text>
+            </TouchableOpacity>
+          </View> 
+        </View>
         )
-      case 'tt4':
+      case 'tt3':
         return(
         <View >
           <Text style = {{backgroundColor: "lightgray",padding:7}}> % Change Timeline</Text>
@@ -69,8 +124,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
           </View> 
         </View>
         )
-      case 'tt5':
-
+      case 'tt4':
         return(
           <View >
             <Text style = {{backgroundColor: "lightgray",padding:7}}> Looking for</Text>
@@ -102,11 +156,8 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   },[id])
   
   return (
-  
-      <Modalize ref={modalizeRef} snapPoint={190}>
+      <Modalize ref={modalizeRef} snapPoint={id !== "tt2" ? 190 : 340}>
         {renderModal(id)}
-
       </Modalize>
-   
   )
 }))

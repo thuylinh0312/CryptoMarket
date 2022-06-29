@@ -36,15 +36,12 @@ const CoinListScreen = () => {
   }
   const checkId = (id) => {
     switch(id){
-      case 'tt2':
+      case 'tt1':
         dispatch(toggleCurrency())
-
         break
-      case 'tt3': case 'tt4' : case 'tt5' : 
+      case 'tt2': case 'tt3' : case 'tt4' : 
         modalRef.current.open(id)
-        break
-
-      
+        break   
     
   }}
   return (

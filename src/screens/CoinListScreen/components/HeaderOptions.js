@@ -4,19 +4,17 @@ import {useSelector, useDispatch} from 'react-redux'
 import Icon from 'react-native-vector-icons/AntDesign';
 
 
-
 export const HeaderOptions = React.memo(({onPressOption}) => {
   const title = useSelector(state => {
     return state.coinListOption.DATA
   })
 
 
-
   return (
     <View style={styles.top}>
         <FlatList 
           contentContainerStyle= {{alignItems: "center"}}
-          ListHeaderComponent={ <Icon name="staro" size={15} color={ "black"}/>}
+          ListHeaderComponent={ <Icon style={styles.favorite} name="staro" size={15} color={ "black"}/>}
           keyExtractor={(item) => item.id.toString()}
           data={title}
           renderItem={({item, index}) => {
@@ -49,4 +47,11 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgray",
     borderRadius: 20
   },
+  favorite:{
+    backgroundColor:"lightgray", 
+    padding:7, 
+    borderRadius:50, 
+    marginRight:5
+
+  }
 });

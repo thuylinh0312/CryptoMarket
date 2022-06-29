@@ -26,7 +26,7 @@ export const Tabs = () => {
           headerShown: false,
           tabBarLabel: 'Home',
           tabBarIcon: ({ focused}) => (
-            <Icon name="home" size={30} color={focused ? "blue" : "black"} />
+            <Icon name="home" size={30} color={focused ? "blue" : "gray"} />
           ),
         }}
       />
@@ -37,7 +37,7 @@ export const Tabs = () => {
           headerShown: false,
           tabBarLabel: 'CoinList',
           tabBarIcon: ({ focused }) => (
-            <Icon name="barschart" size={30} color={focused ? "blue" : "black"}/>
+            <Icon name="barschart" size={30} color={focused ? "blue" : "gray"}/>
           ),
         }}
       />
@@ -48,7 +48,7 @@ export const Tabs = () => {
           headerShown: false,
           tabBarLabel: 'Portfolio',
           tabBarIcon: ({ focused}) => (
-            <Icon name="piechart" size={30} color={focused ? "blue" : "black"}/>
+            <Icon name="piechart" size={30} color={focused ? "blue" : "gray"}/>
           ),
         }}
       />
@@ -59,7 +59,7 @@ export const Tabs = () => {
           headerShown: false,
           tabBarLabel: 'Feed',
           tabBarIcon: ({ focused }) => (
-            <Icon name="wechat" size={30} color={focused ? "blue" : "black"}/>
+            <Icon name="wechat" size={30} color={focused ? "blue" : "gray"}/>
           ),
         }}
       />
@@ -70,7 +70,7 @@ export const Tabs = () => {
           headerShown: false,
           tabBarLabel: 'Setting',
           tabBarIcon: ({ focused }) => (
-            <Icon name="user" size={30} color={focused ? "blue" : "black"}/>
+            <Icon name="user" size={30} color={focused ? "blue" : "gray"}/>
           ),
         }}
       />
