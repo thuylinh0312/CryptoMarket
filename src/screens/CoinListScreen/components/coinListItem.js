@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import {View, Image, Text, StyleSheet} from 'react-native'
 import { images } from '../../../../assets/images'
 import { SvgCssUri } from 'react-native-svg';
@@ -9,17 +9,32 @@ export const CoinListItem = ({item}) => {
   const DATA = useSelector(state => {
     return state.coinListOption.DATA
   })
-
+  // const currency = DATA[0].title
+  // useEffect(() => {
+  //   console.log("dfdfdf",currency)
+  // }, [])
   const percent = useMemo(()=>{
-    switch(DATA[2].title){
-      case "%(24h)":
-        return item.quote.USD.percent_change_24h 
-      case "%(1h)":
-        return item.quote.USD.percent_change_1h 
-      case "%(7d)":
-        return item.quote.USD.percent_change_7d
+    if (DATA[0].title === "USD"){
+      switch(DATA[2].title){
+        case "%(24h)":
+          return item.quote.USD.percent_change_24h 
+        case "%(1h)":
+          return item.quote.USD.percent_change_1h 
+        case "%(7d)":
+          return item.quote.USD.percent_change_7d
+      }
+    }else{
+        switch(DATA[2].title){
+        case "%(24h)":
+          return item.quote.BTC.percent_change_24h 
+        case "%(1h)":
+          return item.quote.BTC.percent_change_1h 
+        case "%(7d)":
+          return item.quote.BTC.percent_change_7d
+      }
     }
-  },[DATA[2].title])
+   
+  },[DATA[2].title,DATA[0].title])
 
   return (
     <View style = {styles.container}>

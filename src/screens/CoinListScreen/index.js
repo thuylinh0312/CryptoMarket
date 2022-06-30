@@ -15,8 +15,13 @@ const CoinListScreen = () => {
   const list = useSelector(state => {
       return state.coinList.list
   })
+
+  const sortSaga = useSelector(state => {
+      return state.coinListOption
+  })
+  
   const getCoinList = async (start) => { 
-      dispatch(fetchCoinList({start})) 
+      dispatch(fetchCoinList({start},sortSaga)) 
   }
 
   useEffect(() => {

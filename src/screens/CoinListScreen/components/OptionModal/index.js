@@ -4,19 +4,19 @@ import { Modalize } from 'react-native-modalize';
 import {useSelector, useDispatch} from 'react-redux'
 import { percentChangeCoinList } from '../../../../actions/coinListAction';
 import { lookingForCoinList } from '../../../../actions/coinListAction';
+import { sortByCoinList } from '../../../../actions/coinListAction';
 
 export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   const modalizeRef = useRef(null);
   const [id, setId] = useState(undefined)
   const dispatch = useDispatch() 
   // const title = useSelector(state => {
-  //   return state.coinListOption.DATA
+  //   return state.coinListOption.sortValueSaga
   // })
   
   useImperativeHandle(ref, () => ({
     open: (id) => {
       setId(id)
-      console.log("fdgfgf",id)
       modalizeRef.current.open()
     },
     close: () => {
@@ -30,8 +30,12 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
     dispatch(lookingForCoinList({lookingForValue}))
   }
 
+  const handleSortBy = ({sortByValue}) => {
+    dispatch(sortByCoinList({sortByValue}))
+  }
+
   // useEffect(() => {
-  //   console.log(title)
+  //   console.log("dfdfdf",title)
   // }, [])
   const renderModal = useCallback(() => {
     console.log(id)
@@ -42,14 +46,14 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
           <Text style = {{backgroundColor: "lightgray",padding:7}}> Sort By</Text>
           <View style={{padding:10}}>
             <TouchableOpacity onPress={()=>{
-              // handlePercentChange({percentValue:"1h"})
+              handleSortBy({sortByValue:"Rank"})
               modalizeRef.current.close() 
             }}>
               <Text>Rank</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               onPress={()=>{
-                // handlePercentChange({percentValue:"24h"}) 
+                handleSortBy({sortByValue:"% Change"})
                 modalizeRef.current.close() 
               }}
               style={{marginVertical:10}}
@@ -57,14 +61,14 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
               <Text>% Change</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{
-              // handlePercentChange({percentValue:"7d"}) 
+              handleSortBy({sortByValue:"Market Cap"})
               modalizeRef.current.close() 
             }}>
               <Text>Market Cap</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               onPress={()=>{
-                // handlePercentChange({percentValue:"24h"}) 
+                handleSortBy({sortByValue:"Volume 24h"})
                 modalizeRef.current.close() 
               }}
               style={{marginVertical:10}}
@@ -72,14 +76,14 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
               <Text>Volume 24h</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{
-              // handlePercentChange({percentValue:"7d"}) 
+              handleSortBy({sortByValue:"Circulating Supply"})
               modalizeRef.current.close() 
             }}>
               <Text>Circulating Supply</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               onPress={()=>{
-                // handlePercentChange({percentValue:"24h"}) 
+                handleSortBy({sortByValue:"Price"})
                 modalizeRef.current.close() 
               }}
               style={{marginVertical:10}}
@@ -87,7 +91,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
               <Text>Price</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{
-              // handlePercentChange({percentValue:"7d"}) 
+              handleSortBy({sortByValue:"Name"})
               modalizeRef.current.close() 
             }}>
               <Text>Name</Text>
@@ -156,7 +160,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   },[id])
   
   return (
-      <Modalize ref={modalizeRef} snapPoint={id !== "tt2" ? 190 : 340}>
+      <Modalize ref={modalizeRef} snapPoint={ 340}>
         {renderModal(id)}
       </Modalize>
   )

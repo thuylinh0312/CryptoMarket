@@ -6,11 +6,51 @@ const initialState = {
         {id: "tt3", title: "%(24h)"},
         {id: "tt4", title: "All Cryptocurrencies"},
     ],
+    sortValue: "",
+    sortDir: "desc",
    
 };
 
+
 const coinListOptionReducer = (state = initialState, action) => {
     switch(action.type) {
+        case 'SORT_BY_COIN_LIST':
+            const sort = [...state.DATA]
+            // const sortValue1 = ""
+        
+            if(action.sortByValue === "Rank"){
+                sort[1].title = "Sort by Rank"
+                // sortValue1 = ""
+            }
+            if(action.sortByValue === "% Change"){
+                sort[1].title = "Sort by %"
+                // sortValue1 = "&sort=percent_change_1h"
+            }
+            if(action.sortByValue === "Market Cap"){
+                sort[1].title = "Sort by MC"
+                // sortValue1 = "&sort=market_cap"
+            }
+            if(action.sortByValue === "Volume 24h"){
+                sort[1].title = "Sort by Vol (24h)"
+                // sortValue1 = "&sort=volum24h"
+            }
+            if(action.sortByValue === "Circulating Supply"){
+                sort[1].title = "Sort by C. Supply"
+                // sortValue1 = "&sort=circulating_supply"
+            }
+            if(action.sortByValue === "Price"){
+                sort[1].title = "Sort by Price"
+                // sortValue1 = "&sort=price"
+            }
+            if(action.sortByValue === "Name"){
+                sort[1].title = "Sort by Name"
+                // sortValue1 = "&sort=name"
+            }
+            return {
+                ...state,
+                DATA: sort,
+                // sortValue: sortValue1
+            }
         case 'PERCENT_CHANGE_COIN_LIST':
             const data = [...state.DATA]
         
