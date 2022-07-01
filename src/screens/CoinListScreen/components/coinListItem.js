@@ -9,10 +9,15 @@ export const CoinListItem = ({item}) => {
   const DATA = useSelector(state => {
     return state.coinListOption.DATA
   })
-  // const currency = DATA[0].title
-  // useEffect(() => {
-  //   console.log("dfdfdf",currency)
-  // }, [])
+
+  const price = useMemo(() => {
+    switch(DATA[0].title){
+      case "USD":
+        return item.quote.USD.price.toFixed(2)
+      case "BTC":
+        return item.quote.BTC.price.toFixed(8)
+    }
+  },[DATA[0].title])
   const percent = useMemo(()=>{
     if (DATA[0].title === "USD"){
       switch(DATA[2].title){
@@ -53,7 +58,9 @@ export const CoinListItem = ({item}) => {
           </View>
 
           <View style = {{textAlign:'right'}}>
-            <Text style={{fontSize: 9, fontWeight:"bold"}}>${item.quote.USD.price.toFixed(2)}</Text>
+            <Text style={{fontSize: 9, fontWeight:"bold"}}>
+              {DATA[0].title === "USD" ? "$" : "" }{price}
+            </Text>
           </View>
           
         </View>

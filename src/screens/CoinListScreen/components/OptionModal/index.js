@@ -11,7 +11,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   const [id, setId] = useState(undefined)
   const dispatch = useDispatch() 
   // const title = useSelector(state => {
-  //   return state.coinListOption.sortValueSaga
+  //   return state.coinListOption
   // })
   
   useImperativeHandle(ref, () => ({
@@ -35,7 +35,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   }
 
   // useEffect(() => {
-  //   console.log("dfdfdf",title)
+  //   console.log("dfdfdf",title.sortValue)
   // }, [])
   const renderModal = useCallback(() => {
     console.log(id)

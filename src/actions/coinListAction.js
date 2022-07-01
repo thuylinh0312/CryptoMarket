@@ -19,10 +19,16 @@ export const sortByCoinList = ({ sortByValue}) => ({
   sortByValue,
   type: 'SORT_BY_COIN_LIST'
 })
-export const sortSaga = () => ({
-  type: 'SORT_SAGA'
-})
 
 export const toggleCurrency = () => ({
   type: 'TOGGLE_CURRENCY'
+})
+export const toggleIconSort = () => ({
+  type: 'TOGGLE_ICON_SORT'
+})
+export const addFavoriteCoinList = () => ({
+  type: 'ADD_FAVORITE_COIN_LIST'
+})
+export const deleteFavoriteCoinList = () => ({
+  type: 'DELETE_FAVORITE_COIN_LIST'
 })

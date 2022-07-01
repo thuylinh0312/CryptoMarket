@@ -1,4 +1,5 @@
 const CURRENCY_LIST =["USD", "BTC"]
+const SORT_DIR_VALUE =["desc", "asc"]
 const initialState = {
     DATA: [
         {id: "tt1", title:  CURRENCY_LIST[0]},
@@ -7,7 +8,8 @@ const initialState = {
         {id: "tt4", title: "All Cryptocurrencies"},
     ],
     sortValue: "",
-    sortDir: "desc",
+    sortDir:  SORT_DIR_VALUE[0],
+    type: ""
    
 };
 
@@ -16,40 +18,40 @@ const coinListOptionReducer = (state = initialState, action) => {
     switch(action.type) {
         case 'SORT_BY_COIN_LIST':
             const sort = [...state.DATA]
-            // const sortValue1 = ""
+            let sortValue1 = ""
         
             if(action.sortByValue === "Rank"){
                 sort[1].title = "Sort by Rank"
-                // sortValue1 = ""
+                sortValue1 = ""
             }
             if(action.sortByValue === "% Change"){
                 sort[1].title = "Sort by %"
-                // sortValue1 = "&sort=percent_change_1h"
+                sortValue1 = "&sort=percent_change_1h"
             }
             if(action.sortByValue === "Market Cap"){
                 sort[1].title = "Sort by MC"
-                // sortValue1 = "&sort=market_cap"
+                sortValue1 = "&sort=market_cap"
             }
             if(action.sortByValue === "Volume 24h"){
                 sort[1].title = "Sort by Vol (24h)"
-                // sortValue1 = "&sort=volum24h"
+                sortValue1 = "&sort=volum24h"
             }
             if(action.sortByValue === "Circulating Supply"){
                 sort[1].title = "Sort by C. Supply"
-                // sortValue1 = "&sort=circulating_supply"
+                sortValue1 = "&sort=circulating_supply"
             }
             if(action.sortByValue === "Price"){
                 sort[1].title = "Sort by Price"
-                // sortValue1 = "&sort=price"
+                sortValue1 = "&sort=price"
             }
             if(action.sortByValue === "Name"){
                 sort[1].title = "Sort by Name"
-                // sortValue1 = "&sort=name"
+                sortValue1 = "&sort=name"
             }
             return {
                 ...state,
                 DATA: sort,
-                // sortValue: sortValue1
+                sortValue: sortValue1
             }
         case 'PERCENT_CHANGE_COIN_LIST':
             const data = [...state.DATA]
@@ -79,19 +81,24 @@ const coinListOptionReducer = (state = initialState, action) => {
             }
         case 'LOOKING_FOR_COIN_LIST':
             const lookingFor = [...state.DATA]
+            let type1 = ""
             
             if(action.lookingForValue === "All Cryptocurrencies"){
                 lookingFor[3].title = "All Cryptocurrencies"
+                type1 = ""
             }else{
                 if(action.lookingForValue === "Coins"){
                     lookingFor[3].title = "Coins"
+                    type1 = "&cryptocurrency_type=coins"
                 }else{
                     lookingFor[3].title = "Tokens"
+                    type1 = "&cryptocurrency_type=tokens"
                 }
             }
             return {
                 ...state,
-                DATA: lookingFor
+                DATA: lookingFor,
+                type: type1
             }
         case "TOGGLE_CURRENCY":
             const currency = [...state.DATA]
@@ -108,9 +115,27 @@ const coinListOptionReducer = (state = initialState, action) => {
                 ...state,
                 DATA: currency
             }
-            
+        case "TOGGLE_ICON_SORT":
+            let icon = state.sortDir
+            // const indexIcon = SORT_DIR_VALUE.findIndex((value)=>{
+            //     return value === icon
+            // })
+            // if(index < SORT_DIR_VALUE.length-1){
+            //     icon = SORT_DIR_VALUE[indexIcon +1]
+            // }else{
+            //     icon = SORT_DIR_VALUE[0]
+            // }
+            if (icon === "desc"){
+                icon = "asc"
+            }else  icon = "desc"
+            console.log("icoooo",icon)
+            return {
+                ...state,
+                sortDir: icon
+            }   
         default:
             return state;
+        
     }
 }
 export default coinListOptionReducer;

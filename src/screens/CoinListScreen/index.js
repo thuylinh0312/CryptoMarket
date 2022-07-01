@@ -8,6 +8,7 @@ import { toggleCurrency } from '../../actions/coinListAction'
 import { CoinListItem } from './components/coinListItem'
 import { HeaderOptions } from './components/HeaderOptions'
 import { OptionModal } from './components/OptionModal'
+import { Header } from './components/Header'
 
 const CoinListScreen = () => {
   const modalRef = useRef(null)
@@ -19,11 +20,10 @@ const CoinListScreen = () => {
   const sortSaga = useSelector(state => {
       return state.coinListOption
   })
-  
+
   const getCoinList = async (start) => { 
       dispatch(fetchCoinList({start},sortSaga)) 
   }
-
   useEffect(() => {
       getCoinList(1)
       return () => {
@@ -32,7 +32,7 @@ const CoinListScreen = () => {
         // Function này được chạy khi screen bị unmount
         // Khi screen unmount thì mình nên gọi 1 action để xóa list coins
       }
-  }, []) 
+  }, [sortSaga.sortValue,sortSaga.type,sortSaga.sortDir]) 
 
   const ItemDivider = () => {
     return (
@@ -51,6 +51,7 @@ const CoinListScreen = () => {
   }}
   return (
     <View style={styles.container}>
+      <Header></Header>
       <HeaderOptions onPressOption={(id) => checkId(id)} />
       {list.length === 0 ? <ActivityIndicator /> : (
         <FlatList
