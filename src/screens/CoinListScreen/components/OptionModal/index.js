@@ -10,9 +10,6 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   const modalizeRef = useRef(null);
   const [id, setId] = useState(undefined)
   const dispatch = useDispatch() 
-  // const title = useSelector(state => {
-  //   return state.coinListOption
-  // })
   
   useImperativeHandle(ref, () => ({
     open: (id) => {
@@ -34,9 +31,6 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
     dispatch(sortByCoinList({sortByValue}))
   }
 
-  // useEffect(() => {
-  //   console.log("dfdfdf",title.sortValue)
-  // }, [])
   const renderModal = useCallback(() => {
     console.log(id)
     switch(id){
@@ -160,7 +154,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   },[id])
   
   return (
-      <Modalize ref={modalizeRef} snapPoint={ 340}>
+      <Modalize ref={modalizeRef} snapPoint={340}>
         {renderModal(id)}
       </Modalize>
   )

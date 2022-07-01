@@ -1,6 +1,5 @@
-export const fetchCoinList = ({start},sortSaga) => ({
+export const fetchCoinList = (sortSaga) => ({
   sortSaga,
-  start,
   type: 'FETCH_COIN_LIST_REQUESTED'
 })
 export const resetCoinList = () => ({
@@ -31,4 +30,11 @@ export const addFavoriteCoinList = () => ({
 })
 export const deleteFavoriteCoinList = () => ({
   type: 'DELETE_FAVORITE_COIN_LIST'
+})
+export const changeSearchValue = (str) => ({
+  str,
+  type: 'CHANGE_SEARCH_VALUE'
+})
+export const searchCoinList = () => ({
+  type: 'SEARCH_COIN_LIST'
 })

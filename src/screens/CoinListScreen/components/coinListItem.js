@@ -39,7 +39,7 @@ export const CoinListItem = ({item}) => {
       }
     }
    
-  },[DATA[2].title,DATA[0].title])
+  },[DATA[2].title, DATA[0].title])
 
   return (
     <View style = {styles.container}>
@@ -48,7 +48,7 @@ export const CoinListItem = ({item}) => {
         source={{uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png?_=5bcdbc6`}}
       />
       <View style={{flex: 1}}>
-        <View style = {{flexDirection: "row", flex: 1, width: "100%", justifyContent:"space-between"}}>
+        <View style = {styles.row1}>
           <Text style={styles.name}>{item.name}</Text>
           <View style={{ marginVertical: -13}}>
             <SvgCssUri
@@ -58,7 +58,7 @@ export const CoinListItem = ({item}) => {
           </View>
 
           <View style = {{textAlign:'right'}}>
-            <Text style={{fontSize: 9, fontWeight:"bold"}}>
+            <Text style={styles.price}>
               {DATA[0].title === "USD" ? "$" : "" }{price}
             </Text>
           </View>
@@ -67,16 +67,16 @@ export const CoinListItem = ({item}) => {
 
         <View style = {{flexDirection: "row"}}>
           <View style={styles.rank}>
-            <Text style={{fontSize: 7, fontWeight:"bold"}}>{item.cmc_rank}</Text>
+            <Text style={styles.row2}>{item.cmc_rank}</Text>
           </View>
           <View style={styles.symbol}>
-            <Text style={{fontSize: 7 }}>{item.symbol}</Text>
+            <Text style={styles.row2}>{item.symbol}</Text>
           </View>
           
 
           <View style = {styles.percent}>
             {percent > 0 ?  <Image style = {styles.icon_up} source={images.up}/> : <Image style = {styles.icon_down} source={images.down}/>}
-            <Text style = {styles.percent_change}>{Math.abs(percent).toFixed(2)}%</Text>
+            <Text style = {styles.row2}>{Math.abs(percent).toFixed(2)}%</Text>
           </View>
         </View> 
       </View>
@@ -88,11 +88,11 @@ export const CoinListItem = ({item}) => {
 
 const styles = StyleSheet.create({
     container:{
-        flexDirection: "row",
-        marginBottom: 5,
-        paddingHorizontal: 15,
-        alignItems: "center",
-        justifyContent: "center"
+      flexDirection: "row",
+      marginBottom: 5,
+      paddingHorizontal: 15,
+      alignItems: "center",
+      justifyContent: "center"
     },
     name:{
       fontSize: 10 , 
@@ -100,39 +100,48 @@ const styles = StyleSheet.create({
       width:"30%"
     },
     image: {
-        width: 35, 
-        height: 35, 
-        marginRight: 15
+      width: 35, 
+      height: 35, 
+      marginRight: 15
     },
     symbol:{
       justifyContent: 'center', 
       alignItems: 'center', 
     },
     rank:{
-        minWidth: 14, 
-        // minHeight: 14,
-        borderRadius: 7,
-        paddingHorizontal: 2,
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        backgroundColor: "lightgray"  
+      minWidth: 14, 
+      borderRadius: 7,
+      paddingHorizontal: 2,
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      backgroundColor: "lightgray"  
     },
     percent: {
-        flexDirection: "row", 
-        alignItems: "center",
+      flexDirection: "row", 
+      alignItems: "center",
     },
-    percent_change: {
-        fontSize: 8 , 
-       
+    row1: {
+      flexDirection: "row", 
+      flex: 1, 
+      width: "100%", 
+      justifyContent:"space-between"
     },
+    row2: {
+      fontSize: 7 , 
+      fontWeight:"bold"  
+    },
+    price: {
+      fontSize: 9 , 
+      fontWeight:"bold"  
+  },
     icon_up:{
-        width:20, 
-        height:20,
-        tintColor: 'blue'
+      width:20, 
+      height:20,
+      tintColor: 'blue'
     },
     icon_down:{
-        width:20, 
-        height:20,
-        tintColor: 'red'
+      width:20, 
+      height:20,
+      tintColor: 'red'
     }
 })

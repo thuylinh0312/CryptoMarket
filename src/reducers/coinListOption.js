@@ -26,7 +26,7 @@ const coinListOptionReducer = (state = initialState, action) => {
             }
             if(action.sortByValue === "% Change"){
                 sort[1].title = "Sort by %"
-                sortValue1 = "&sort=percent_change_1h"
+                sortValue1 = "&sort=percent_change_24h"
             }
             if(action.sortByValue === "Market Cap"){
                 sort[1].title = "Sort by MC"
@@ -34,7 +34,7 @@ const coinListOptionReducer = (state = initialState, action) => {
             }
             if(action.sortByValue === "Volume 24h"){
                 sort[1].title = "Sort by Vol (24h)"
-                sortValue1 = "&sort=volum24h"
+                sortValue1 = "&sort=volume_24h"
             }
             if(action.sortByValue === "Circulating Supply"){
                 sort[1].title = "Sort by C. Supply"
@@ -67,16 +67,6 @@ const coinListOptionReducer = (state = initialState, action) => {
             }
             return {
                 ...state,
-                // DATA: action.DATA.map((e, index) => {
-                //     if (index === 2) {
-                //         return {
-                //             ...e,
-                //             title: "%(1h)"
-                //         }
-                //     } else {
-                //         return e
-                //     }
-                // })
                 DATA: data
             }
         case 'LOOKING_FOR_COIN_LIST':
@@ -117,18 +107,9 @@ const coinListOptionReducer = (state = initialState, action) => {
             }
         case "TOGGLE_ICON_SORT":
             let icon = state.sortDir
-            // const indexIcon = SORT_DIR_VALUE.findIndex((value)=>{
-            //     return value === icon
-            // })
-            // if(index < SORT_DIR_VALUE.length-1){
-            //     icon = SORT_DIR_VALUE[indexIcon +1]
-            // }else{
-            //     icon = SORT_DIR_VALUE[0]
-            // }
             if (icon === "desc"){
                 icon = "asc"
             }else  icon = "desc"
-            console.log("icoooo",icon)
             return {
                 ...state,
                 sortDir: icon
