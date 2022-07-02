@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState, useImperativeHandle, useCallback} from 'react'
-import { Text, View, TouchableOpacity , } from 'react-native'
+import { Text, View, TouchableOpacity , StyleSheet} from 'react-native'
 import { Modalize } from 'react-native-modalize';
 import {useSelector, useDispatch} from 'react-redux'
 import { percentChangeCoinList } from '../../../../actions/coinListAction';
@@ -37,7 +37,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
       case 'tt2':
         return(
           <View >
-          <Text style = {{backgroundColor: "lightgray",padding:7}}> Sort By</Text>
+          <Text style = {styles.title}> Sort By</Text>
           <View style={{padding:10}}>
             <TouchableOpacity onPress={()=>{
               handleSortBy({sortByValue:"Rank"})
@@ -50,7 +50,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
                 handleSortBy({sortByValue:"% Change"})
                 modalizeRef.current.close() 
               }}
-              style={{marginVertical:10}}
+              style={styles.item}
             >
               <Text>% Change</Text>
             </TouchableOpacity>
@@ -65,7 +65,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
                 handleSortBy({sortByValue:"Volume 24h"})
                 modalizeRef.current.close() 
               }}
-              style={{marginVertical:10}}
+              style={styles.item}
             >
               <Text>Volume 24h</Text>
             </TouchableOpacity>
@@ -80,7 +80,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
                 handleSortBy({sortByValue:"Price"})
                 modalizeRef.current.close() 
               }}
-              style={{marginVertical:10}}
+              style={styles.item}
             >
               <Text>Price</Text>
             </TouchableOpacity>
@@ -96,7 +96,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
       case 'tt3':
         return(
         <View >
-          <Text style = {{backgroundColor: "lightgray",padding:7}}> % Change Timeline</Text>
+          <Text style = {styles.title}> % Change Timeline</Text>
           <View style={{padding:10}}>
             <TouchableOpacity onPress={()=>{
               handlePercentChange({percentValue:"1h"})
@@ -109,7 +109,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
                 handlePercentChange({percentValue:"24h"}) 
                 modalizeRef.current.close() 
               }}
-              style={{marginVertical:10}}
+              style={styles.item}
             >
               <Text>24h hours</Text>
             </TouchableOpacity>
@@ -125,7 +125,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
       case 'tt4':
         return(
           <View >
-            <Text style = {{backgroundColor: "lightgray",padding:7}}> Looking for</Text>
+            <Text style = {styles.title}> Looking for</Text>
             <View style={{padding:10}}>
               <TouchableOpacity onPress={()=>{
                 handleLookingFor({lookingForValue:"All Cryptocurrencies"})
@@ -137,7 +137,7 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
                 handleLookingFor({lookingForValue:"Coins"})
                 modalizeRef.current.close() 
                 }}
-                style={{marginVertical:10}}
+                style={styles.item}
               >
                 <Text>Coins</Text>
               </TouchableOpacity>
@@ -159,3 +159,12 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
       </Modalize>
   )
 }))
+const styles = StyleSheet.create({
+  item: {
+    marginVertical:10
+  },
+  title: {
+    backgroundColor: "lightgray",
+    padding:7
+  }
+});

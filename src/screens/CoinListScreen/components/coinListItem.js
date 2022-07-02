@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 export const CoinListItem = ({item}) => {
   const DATA = useSelector(state => {
-    return state.coinListOption.DATA
+    return state.coinListOption.data
   })
 
   const price = useMemo(() => {

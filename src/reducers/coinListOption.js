@@ -1,7 +1,7 @@
 const CURRENCY_LIST =["USD", "BTC"]
 const SORT_DIR_VALUE =["desc", "asc"]
 const initialState = {
-    DATA: [
+    data: [
         {id: "tt1", title:  CURRENCY_LIST[0]},
         {id: "tt2", title: "Sort by Rank"},
         {id: "tt3", title: "%(24h)"},
@@ -17,7 +17,7 @@ const initialState = {
 const coinListOptionReducer = (state = initialState, action) => {
     switch(action.type) {
         case 'SORT_BY_COIN_LIST':
-            const sort = [...state.DATA]
+            const sort = [...state.data]
             let sortValue1 = ""
         
             if(action.sortByValue === "Rank"){
@@ -50,27 +50,27 @@ const coinListOptionReducer = (state = initialState, action) => {
             }
             return {
                 ...state,
-                DATA: sort,
+                data: sort,
                 sortValue: sortValue1
             }
         case 'PERCENT_CHANGE_COIN_LIST':
-            const data = [...state.DATA]
+            const data2 = [...state.data]
         
             if(action.percentValue === "1h"){
-                data[2].title = "%(1h)"
+                data2[2].title = "%(1h)"
             }else{
                 if(action.percentValue === "24h"){
-                    data[2].title = "%(24h)"
+                    data2[2].title = "%(24h)"
                 }else{
-                    data[2].title = "%(7d)"
+                    data2[2].title = "%(7d)"
                 }
             }
             return {
                 ...state,
-                DATA: data
+                data: data2
             }
         case 'LOOKING_FOR_COIN_LIST':
-            const lookingFor = [...state.DATA]
+            const lookingFor = [...state.data]
             let type1 = ""
             
             if(action.lookingForValue === "All Cryptocurrencies"){
@@ -87,11 +87,11 @@ const coinListOptionReducer = (state = initialState, action) => {
             }
             return {
                 ...state,
-                DATA: lookingFor,
+                data: lookingFor,
                 type: type1
             }
         case "TOGGLE_CURRENCY":
-            const currency = [...state.DATA]
+            const currency = [...state.data]
             const index = CURRENCY_LIST.findIndex((value)=>{
                 return value === currency[0].title
             })
@@ -103,7 +103,7 @@ const coinListOptionReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                DATA: currency
+                data: currency
             }
         case "TOGGLE_ICON_SORT":
             let icon = state.sortDir

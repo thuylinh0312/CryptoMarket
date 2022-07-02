@@ -7,7 +7,7 @@ import { toggleIconSort } from '../../../actions/coinListAction';
 export const HeaderOptions = React.memo(({onPressOption}) => {
   const dispatch = useDispatch() 
   const title = useSelector(state => {
-    return state.coinListOption.DATA
+    return state.coinListOption.data
   })
   const iconSort = useSelector(state => {
     return state.coinListOption.sortDir

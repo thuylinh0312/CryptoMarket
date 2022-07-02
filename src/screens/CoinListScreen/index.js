@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react'
 import {ActivityIndicator, View, FlatList, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import { fetchCoinList } from '../../actions/coinListAction'
-import { resetCoinList } from '../../actions/coinListAction'
 import { toggleCurrency } from '../../actions/coinListAction'
 
 import { CoinListItem } from './components/coinListItem'
@@ -25,17 +24,11 @@ const CoinListScreen = ({navigation}) => {
 
   useEffect(() => {
       getCoinList()
-      return () => {
-        console.log("unmount")
-        dispatch(resetCoinList()) 
-        // Function này được chạy khi screen bị unmount
-        // Khi screen unmount thì mình nên gọi 1 action để xóa list coins
-      }
   }, [sortSaga.sortValue, sortSaga.type, sortSaga.sortDir]) 
 
   const ItemDivider = () => {
     return (
-      <View style={{ height: 1, width: "100%",backgroundColor: "lightgray"}}/>
+      <View style={styles.divider}/>
     );
   }
   const checkId = (id) => {
@@ -54,7 +47,6 @@ const CoinListScreen = ({navigation}) => {
       {list.length === 0 ? <ActivityIndicator /> : (
         <FlatList
           keyExtractor={(item) => item.id.toString()}
-          // onEndReached={() => getCoinList(list.length + 1)}
           data={list ?? []}
           renderItem={({item, index}) => { 
             return (
@@ -78,6 +70,12 @@ const styles = StyleSheet.create({
   item: {
     paddingTop: 8, 
     paddingBottom: 8
+  },
+  divider: {
+    eight: 1, 
+    width: "100%",
+    backgroundColor: "lightgray" 
   }
+
 });
 export default CoinListScreen

@@ -35,6 +35,3 @@ export const changeSearchValue = (str) => ({
   str,
   type: 'CHANGE_SEARCH_VALUE'
 })
-export const searchCoinList = () => ({
-  type: 'SEARCH_COIN_LIST'
-})

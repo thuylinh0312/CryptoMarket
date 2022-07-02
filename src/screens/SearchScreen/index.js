@@ -5,7 +5,6 @@ import {useSelector, useDispatch} from 'react-redux'
 import { changeSearchValue } from '../../actions/coinListAction'
 import { CoinListSeach } from './components/CoinListSearch';
 import { fetchCoinList } from '../../actions/coinListAction';
-import { resetCoinList } from '../../actions/coinListAction';
 
 
 const SearchScreen = ({navigation}) => {
@@ -17,21 +16,18 @@ const SearchScreen = ({navigation}) => {
     return state.coinList.list
   })
   const listSearch = list.filter(e => e.name.toLowerCase().includes(searchValue) );
+ 
   const sortSaga = useSelector(state => {
     return state.coinListOption
   })
-
   const getCoinList = async () => { dispatch(fetchCoinList(sortSaga)) }
   useEffect(() => {
-      getCoinList()
-      return () => {
-        dispatch(resetCoinList()) 
-      }
+      if(list.length === 0){getCoinList()}
   },[]) 
 
   const ItemDivider = () => {
     return (
-      <View style={{ height: 1, width: "100%",backgroundColor: "lightgray"}}/>
+      <View style={styles.divider}/>
     );
   }
 
@@ -52,7 +48,7 @@ const SearchScreen = ({navigation}) => {
       {searchValue === "" ? null : (
         <View>
         <FlatList
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id.toString() + item.name}
           data={listSearch ?? []}
           renderItem={({item, index}) => { 
             return (
@@ -87,6 +83,11 @@ const styles = StyleSheet.create({
   cancel: {
     fontSize: 12, 
     color: "blue"
+  },
+  divider: {
+    height: 1, 
+    width: "100%",
+    backgroundColor: "lightgray"
   }
 });
 export default SearchScreen
