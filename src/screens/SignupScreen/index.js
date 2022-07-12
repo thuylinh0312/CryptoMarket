@@ -1,9 +1,59 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, ScrollView} from 'react-native'
-//eye-slash
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, KeyboardAvoidingView, ScrollView} from 'react-native'
+import auth from '@react-native-firebase/auth';
+
 const SignupScreen = ({navigation}) => {
-  return (
+    const [display, setDisplay] = useState(true)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const createAlert = () =>
+        Alert.alert(
+        "Đăng kí thành công!",
+        `Tài khoản ${email}`,
+        [
+            {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+            },
+            { text: "Log In", onPress: () => navigation.navigate("LoginScreen") }
+        ]
+    );
+
+    const handleSignUp = () => {
+        if( email === "" || password === ""){
+            alert("Vui lòng nhập đầy đủ thông tin!")
+        }else{
+            auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                setEmail("")
+                setPassword("")
+                createAlert()
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    Alert.alert(
+                        "Đăng kí thất bại!",
+                        `Tài khoản ${email} đã được sử dụng`,
+                    );
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    Alert.alert(
+                        "Đăng kí thất bại!",
+                        `Tài khoản không hợp lệ`,
+                    );
+                }
+
+                console.error(error);
+            });
+        }
+        
+    }
+
+    return (
     <View style={styles.container}>
         <View  style = {{flex: 1}}>
             <Text style = {styles.textSignup}>Sign Up</Text>
@@ -12,6 +62,8 @@ const SignupScreen = ({navigation}) => {
                 <Text>Email Address</Text>
                 <View style = {styles.email}>
                     <TextInput
+                    value={email}
+                    onChangeText={text => setEmail(text)}
                     placeholder = "Enter your email address..."
                     />
                 </View>
@@ -19,10 +71,13 @@ const SignupScreen = ({navigation}) => {
                 <View style = {styles.pass}>
                     <TextInput
                     style = {{flex: 1}}
+                    value={password}
+                    onChangeText={text => setPassword(text)}
                     placeholder = "Enter your password..."
+                    secureTextEntry={display}
                     />
-                    <TouchableOpacity>
-                        <Icon style={{marginRight: 8}} name="eye" size={18} color="lightgray"/>
+                    <TouchableOpacity onPress={() => setDisplay(!display)}>
+                        <Icon style={{marginRight: 8}} name={display ? "eye-slash" : "eye"} size={18} color="lightgray"/>
                     </TouchableOpacity>
                     
                 </View>
@@ -31,7 +86,7 @@ const SignupScreen = ({navigation}) => {
             <View style = {styles.text}>
                 <Text style = {{fontSize: 10}}>Already have an account? </Text>
                 <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
-                    <Text style = {{fontSize: 10, color: "blue"}}>Log In</Text>
+                    <Text style = {styles.textLogin}>Log In</Text>
                 </TouchableOpacity>
             
             
@@ -40,7 +95,7 @@ const SignupScreen = ({navigation}) => {
         
 
         <View style = {styles.createAcc}>
-            <TouchableOpacity>
+            <TouchableOpacity  onPress={() => handleSignUp() }>
                 <Text>Create an Account</Text>
             </TouchableOpacity>
             
@@ -98,5 +153,9 @@ const styles = StyleSheet.create({
         flexDirection: "row", 
         marginTop: 10, 
         justifyContent: "center"
+    },
+    textLogin: {
+        fontSize: 10, 
+        color: "blue"
     }
 });

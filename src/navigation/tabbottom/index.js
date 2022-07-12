@@ -4,7 +4,6 @@ import HomeScreen from '../../screens/HomeScreen';
 import CoinListScreen from '../../screens/CoinListScreen';
 import PortfolioScreen from '../../screens/PortfolioScreen';
 import FeedScreen from '../../screens/FeedScreen';
-import SettingScreen from '../../screens/SettingScreen';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 
@@ -13,11 +12,12 @@ const Tab = createBottomTabNavigator();
 export const Tabs = () => {
   return (
     <Tab.Navigator
-      initialRouteName="CoinList"
-      screenOptions={{
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: '#e91e63',
+      initialRouteName = "CoinList"
+      screenOptions = {{
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: 'blue',
       }}
+      
     >
       <Tab.Screen
         name="Home"
@@ -60,17 +60,6 @@ export const Tabs = () => {
           tabBarLabel: 'Feed',
           tabBarIcon: ({ focused }) => (
             <Icon name="wechat" size={30} color={focused ? "blue" : "gray"}/>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Setting"
-        component={SettingScreen}
-        options={{
-          headerShown: false,
-          tabBarLabel: 'Setting',
-          tabBarIcon: ({ focused }) => (
-            <Icon name="user" size={30} color={focused ? "blue" : "gray"}/>
           ),
         }}
       />
