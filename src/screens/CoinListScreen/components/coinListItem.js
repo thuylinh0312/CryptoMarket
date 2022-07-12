@@ -1,11 +1,11 @@
 import React, { useMemo, useEffect } from 'react'
-import {View, Image, Text, StyleSheet} from 'react-native'
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import { images } from '../../../../assets/images'
-import { SvgCssUri } from 'react-native-svg';
+import { SvgUri } from 'react-native-svg';
 import {useSelector, useDispatch} from 'react-redux'
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export const CoinListItem = ({item}) => {
+export const CoinListItem = ({item, onFavourite}) => {
   const DATA = useSelector(state => {
     return state.coinListOption.data
   })
@@ -51,7 +51,7 @@ export const CoinListItem = ({item}) => {
         <View style = {styles.row1}>
           <Text style={styles.name}>{item.name}</Text>
           <View style={{ marginVertical: -13}}>
-            <SvgCssUri
+            <SvgUri
               width="60"
               uri={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${item.id}.svg`}
               />
@@ -80,7 +80,9 @@ export const CoinListItem = ({item}) => {
           </View>
         </View> 
       </View>
-      <Icon style={{marginLeft:10}} name="staro" size={15} color="gray"/>
+      <TouchableOpacity onPress={onFavourite}>
+        <Icon style={{marginLeft:10}} name="staro" size={15} color="gray"/>
+      </TouchableOpacity>
       
     </View> 
   )

@@ -1,10 +1,18 @@
 import React, {useEffect} from 'react'
 import {View, Text, ActivityIndicator, StyleSheet} from 'react-native'
 import auth from '@react-native-firebase/auth';
+import { ApiUtil } from '../../configs/ApiConfig';
 
 const LoadingScreen = ({navigation}) => {
+    console.log('LOadingggggg')
+
     useEffect(() => {
         auth().onAuthStateChanged(user => {
+            console.log('user ==========> ', user)
+
+            if (user) {
+                ApiUtil.init(user.uid)
+            }
             navigation.navigate(user ? 'DrawerScreen' : 'LoginScreen')
         })
     }, []) 

@@ -8,6 +8,7 @@ import { CoinListItem } from './components/coinListItem'
 import { HeaderOptions } from './components/HeaderOptions'
 import { OptionModal } from './components/OptionModal'
 import { Header } from './components/Header'
+import { ApiUtil } from '../../configs/ApiConfig'
 
 const CoinListScreen = ({navigation}) => {
   const modalRef = useRef(null)
@@ -24,6 +25,7 @@ const CoinListScreen = ({navigation}) => {
 
   useEffect(() => {
       getCoinList()
+      ApiUtil.callApi({url: 'app/get-favourites', method: 'GET'}).then(data => console.log('dataaaaa fetch', data.data))
   }, [sortSaga.sortValue, sortSaga.type, sortSaga.sortDir]) 
 
   const ItemDivider = () => {
@@ -51,7 +53,10 @@ const CoinListScreen = ({navigation}) => {
           renderItem={({item, index}) => { 
             return (
               <View style = {styles.item}>
-                <CoinListItem item={item} />
+                <CoinListItem item={item} onFavourite={() => {
+                  // call Api add favourite
+                  ApiUtil.callApi({url: 'app/add-favourite', method: 'POST', data: {coin_id: item.id}}).then(data => console.log('dataaaaaa', data))
+                }} />
               </View>                
             )     
           }}
