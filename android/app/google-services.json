@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "991021779300",
+    "project_id": "cryptomarket-f8943",
+    "storage_bucket": "cryptomarket-f8943.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991021779300:android:202c037ff2915f6e7b5271",
+        "android_client_info": {
+          "package_name": "com.cryptomarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991021779300-8jb73m0ig7bsrkb67agai5idukej7prs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiWVOb92XdHOu0eiJdX8usmNE-ol2oX8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991021779300-8jb73m0ig7bsrkb67agai5idukej7prs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

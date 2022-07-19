@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import {StyleSheet, View, FlatList, TouchableOpacity, Text} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { toggleIconSort } from '../../../actions/coinListAction';
+import { openFavoriteList } from '../../../actions/coinListAction';
 
 export const HeaderOptions = React.memo(({onPressOption}) => {
   const dispatch = useDispatch() 
@@ -11,6 +12,9 @@ export const HeaderOptions = React.memo(({onPressOption}) => {
   })
   const iconSort = useSelector(state => {
     return state.coinListOption.sortDir
+  })
+  const toggle = useSelector(state => {
+    return state.favoriteList.favList
   })
   const nameIcon = useMemo(() => {
     switch(iconSort){
@@ -25,7 +29,11 @@ export const HeaderOptions = React.memo(({onPressOption}) => {
     <View style={styles.top}>
         <FlatList 
           contentContainerStyle= {{alignItems: "center"}}
-          ListHeaderComponent={ <Icon style={styles.favorite} name="staro" size={15} color={ "black"}/>}
+          ListHeaderComponent={ 
+            <TouchableOpacity onPress={() => dispatch(openFavoriteList() )}>
+              <Icon style={styles.favorite} name={toggle ? "star" : "staro"} size={15} color={ "black"}/>
+            </TouchableOpacity>
+          }
           keyExtractor={(item) => item.id.toString()}
           data={title}
           renderItem={({item, index}) => {

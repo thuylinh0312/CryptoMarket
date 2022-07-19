@@ -32,7 +32,6 @@ export const OptionModal = React.memo(React.forwardRef((props, ref) => {
   }
 
   const renderModal = useCallback(() => {
-    console.log(id)
     switch(id){
       case 'tt2':
         return(

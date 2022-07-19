@@ -1,29 +1,40 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {ActivityIndicator, View, FlatList, StyleSheet, Text, TouchableOpacity} from 'react-native'
+import {ActivityIndicator, View, FlatList, StyleSheet} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import { fetchCoinList } from '../../actions/coinListAction'
 import { toggleCurrency } from '../../actions/coinListAction'
-
 import { CoinListItem } from './components/coinListItem'
 import { HeaderOptions } from './components/HeaderOptions'
 import { OptionModal } from './components/OptionModal'
 import { Header } from './components/Header'
+import { fetchFavoriteList } from '../../actions/coinListAction'
+import { addFavoriteList } from '../../actions/coinListAction'
+import { deleteFavoriteList } from '../../actions/coinListAction'
 
 const CoinListScreen = ({navigation}) => {
+  
   const modalRef = useRef(null)
   const dispatch = useDispatch() 
   const list = useSelector(state => {
-      return state.coinList.list
+    return state.coinList.list
   })
-
+  const favoriteList = useSelector(state => {
+    return state.favoriteList.favorite
+  })
   const sortSaga = useSelector(state => {
-      return state.coinListOption
+    return state.coinListOption
   })
 
-  const getCoinList = async () => { dispatch(fetchCoinList(sortSaga)) }
+  const toggle = useSelector(state => {
+    return state.favoriteList.favList
+  })
+  const displayList = !toggle ? list : list.filter(value => favoriteList.includes(value.id))
+  useEffect(()=>{
+    dispatch(fetchFavoriteList())
+  },[])
 
   useEffect(() => {
-      getCoinList()
+    dispatch(fetchCoinList(sortSaga))
   }, [sortSaga.sortValue, sortSaga.type, sortSaga.sortDir]) 
 
   const ItemDivider = () => {
@@ -44,19 +55,24 @@ const CoinListScreen = ({navigation}) => {
     <View style={styles.container}>
       <Header navigation = {navigation}/>
       <HeaderOptions onPressOption={(id) => checkId(id)} />
-      {list.length === 0 ? <ActivityIndicator /> : (
+      {displayList.length === 0 ? <ActivityIndicator /> : (
         <FlatList
           keyExtractor={(item) => item.id.toString()}
-          data={list ?? []}
+          data={displayList ?? []}
           renderItem={({item, index}) => { 
             return (
               <View style = {styles.item}>
-                <CoinListItem item={item} />
+                <CoinListItem item={item} onFavourite={() => {
+                  if (favoriteList.includes(item.id)){
+                    dispatch(deleteFavoriteList(item.id))
+                  }else{
+                    dispatch(addFavoriteList(item.id))
+                  }
+                }} />
               </View>                
             )     
           }}
           ItemSeparatorComponent={ItemDivider}
-          ListFooterComponent={<ActivityIndicator />}
         />
       )}
       <OptionModal ref={modalRef} />

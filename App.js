@@ -5,12 +5,13 @@ import {Provider} from 'react-redux'
 import {createStore, applyMiddleware} from 'redux'
 import rootReducer from './src/reducers'
 import createSagaMiddleware from 'redux-saga'
-import coinListSaga from './src/saga/coinListSaga';
+import coinSaga from './src/saga/coinSaga';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import rootSaga from './src/saga';
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware))
-sagaMiddleware.run(coinListSaga)
+sagaMiddleware.run(rootSaga)
 
 const App = () => {
   return (
