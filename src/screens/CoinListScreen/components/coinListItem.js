@@ -5,11 +5,14 @@ import { SvgUri } from 'react-native-svg';
 import {useSelector, useDispatch} from 'react-redux'
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export const CoinListItem = ({item, onFavourite}) => {
+
+export const CoinListItem = ({ item, onFavourite}) => {
   const DATA = useSelector(state => {
     return state.coinListOption.data
   })
-
+  const favoriteList = useSelector(state => {
+    return state.favoriteList.favorite
+  })
   const price = useMemo(() => {
     switch(DATA[0].title){
       case "USD":
@@ -81,7 +84,7 @@ export const CoinListItem = ({item, onFavourite}) => {
         </View> 
       </View>
       <TouchableOpacity onPress={onFavourite}>
-        <Icon style={{marginLeft:10}} name="staro" size={15} color="gray"/>
+        <Icon style={{marginLeft:12}} name={favoriteList.includes(item.id) ? "star" : "staro"} size={15} color="gray"/>
       </TouchableOpacity>
       
     </View> 

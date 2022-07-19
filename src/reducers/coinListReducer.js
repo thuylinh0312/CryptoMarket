@@ -13,7 +13,7 @@ const coinListReducer = (state = initialState, action) => {
         case 'FETCH_COIN_LIST_SUCCESS':
             return {
                 ...state,
-                list: state.list.concat(action.list),
+                list: action.list,
                 loading: false
             }
         case 'RESET_COIN_LIST':

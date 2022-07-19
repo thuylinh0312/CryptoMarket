@@ -2,6 +2,21 @@ export const fetchCoinList = (sortSaga) => ({
   sortSaga,
   type: 'FETCH_COIN_LIST_REQUESTED'
 })
+export const fetchFavoriteList = () => ({
+  type: 'FETCH_FAVORITE_LIST_REQUESTED'
+})
+export const addFavoriteList = (id) => ({
+  id,
+  type: 'ADD_FAVORITE_LIST_REQUESTED'
+})
+export const deleteFavoriteList = (id) => ({
+  id,
+  type: 'DELETE_FAVORITE_LIST_REQUESTED'
+})
+export const setId = (id) => ({
+  id,
+  type: 'SET_ID'
+})
 export const resetCoinList = () => ({
   type: 'RESET_COIN_LIST'
 })
@@ -25,13 +40,11 @@ export const toggleCurrency = () => ({
 export const toggleIconSort = () => ({
   type: 'TOGGLE_ICON_SORT'
 })
-export const addFavoriteCoinList = () => ({
-  type: 'ADD_FAVORITE_COIN_LIST'
-})
-export const deleteFavoriteCoinList = () => ({
-  type: 'DELETE_FAVORITE_COIN_LIST'
-})
+
 export const changeSearchValue = (str) => ({
   str,
   type: 'CHANGE_SEARCH_VALUE'
+})
+export const openFavoriteList = () => ({
+  type: 'OPEN_FAVORITE_LIST'
 })

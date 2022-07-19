@@ -9,7 +9,7 @@ const initialState = {
     ],
     sortValue: "",
     sortDir:  SORT_DIR_VALUE[0],
-    type: ""
+    type: "",
    
 };
 
@@ -113,7 +113,7 @@ const coinListOptionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sortDir: icon
-            }   
+            }  
         default:
             return state;
         

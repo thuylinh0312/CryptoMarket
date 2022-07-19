@@ -26,7 +26,15 @@ const EmailScreen = ({navigation}) => {
             setCurrentPassword("")
             setNewEmail("")
         }).catch((error) => {
-            createAlert()
+            if (error.code === 'auth/email-already-in-use') {
+                Alert.alert(
+                    "Lỗi!",
+                    `Địa chỉ email này đã được sử dụng`,
+                );
+            }else{
+                createAlert()
+            }
+           
         })
         }).catch((error) => {
             createAlert()

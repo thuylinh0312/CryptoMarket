@@ -11,7 +11,7 @@ import EmailScreen from '../screens/AccountScreen/EmailScreen';
 import LoadingScreen from '../screens/LoadingScreen';
 import SettingScreen from '../screens/SettingScreen';
 import { Tabs } from './tabbottom';
-import {View, Text, TouchableOpacity} from 'react-native'
+import DrawerComponent from './drawer';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -19,14 +19,11 @@ const Drawer = createDrawerNavigator();
 export const AppNavigation = () => {
   const DrawerScreen = () => {
     return (
-      <Drawer.Navigator drawerContent={() => (<View>
-        <Text>abc</Text>
-        <Text>abc</Text>
-        <Text>abc</Text>
-        <Text>abc</Text>
-        <Text >log out </Text>
-        </View>)} initialRouteName="Tabs" screenOptions = {{headerShown: false}}>
-        {/* <Drawer.Screen  name='SettingScreen' component={SettingScreen} /> */}
+      <Drawer.Navigator 
+        drawerContent={props => <DrawerComponent  {...props}/>} 
+        initialRouteName="Tabs" 
+        screenOptions = {{headerShown: false}}>
+
         <Drawer.Screen  name='Tabs' component={Tabs}/>
       </Drawer.Navigator>
     )
@@ -34,8 +31,6 @@ export const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoadingScreen" screenOptions = {{headerShown: false}}>
-        
-        {/* <Stack.Screen  name='Tabs' component={Tabs}/> */}
         <Stack.Screen  name='SearchScreen' component={SearchScreen} />
         <Stack.Screen  name='LoginScreen' component={LoginScreen} />
         <Stack.Screen  name='SignupScreen' component={SignupScreen} />

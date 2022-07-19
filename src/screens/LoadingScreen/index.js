@@ -4,12 +4,9 @@ import auth from '@react-native-firebase/auth';
 import { ApiUtil } from '../../configs/ApiConfig';
 
 const LoadingScreen = ({navigation}) => {
-    console.log('LOadingggggg')
 
     useEffect(() => {
         auth().onAuthStateChanged(user => {
-            console.log('user ==========> ', user)
-
             if (user) {
                 ApiUtil.init(user.uid)
             }
