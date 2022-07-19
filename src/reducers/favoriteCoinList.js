@@ -39,11 +39,6 @@ const favoriteCoinList = (state = initialState, action) => {
                 ...state,
                 favorite: list
             }
-         case 'SET_ID':
-            return {
-                ...state,
-                itemId: action.id
-            }
         case "OPEN_FAVORITE_LIST":
             let toggle = state.favList
             if (toggle === false){

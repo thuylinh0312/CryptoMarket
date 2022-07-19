@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Icon from 'react-native-vector-icons/AntDesign';
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, KeyboardAvoidingView, ScrollView} from 'react-native'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Alert} from 'react-native'
 import auth, { firebase } from '@react-native-firebase/auth';
 
 const PassScreen = ({navigation}) => {
@@ -14,7 +14,7 @@ const PassScreen = ({navigation}) => {
     );
 
     const reauthenticate = (currentPassword) => {
-        let user = firebase.auth().currentUser;
+        const user = firebase.auth().currentUser;
         let cred = firebase.auth.EmailAuthProvider.credential(
             user.email, currentPassword);
         return user.reauthenticateWithCredential(cred);
@@ -22,7 +22,7 @@ const PassScreen = ({navigation}) => {
     const changePass = () => {
         if(newPass === confirmPass){
             reauthenticate(currentPassword).then(() => {
-            let user = firebase.auth().currentUser;
+            const user = firebase.auth().currentUser;
             user.updatePassword(newPass).then(() => {
                 alert("Thay đổi mật khẩu thành công!")
                 setCurrentPassword("")

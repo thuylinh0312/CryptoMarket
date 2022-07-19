@@ -4,12 +4,14 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { images } from '../../../assets/images';
 import auth from '@react-native-firebase/auth';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-
 const DrawerComponent = (props) => {
     const [display, setDisplay] = useState(false)
     const logOutPress = () => {
         auth().signOut().then(() => console.log('User signed out!'));
-        props.navigation.navigate("LoginScreen")
+        props.navigation.reset({
+            index: 0,
+            routes: [{name: 'LoginScreen'}],
+          });
     }
     return (
     <View style = {styles.container}>

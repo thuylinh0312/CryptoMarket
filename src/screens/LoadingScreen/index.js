@@ -10,7 +10,7 @@ const LoadingScreen = ({navigation}) => {
             if (user) {
                 ApiUtil.init(user.uid)
             }
-            navigation.navigate(user ? 'DrawerScreen' : 'LoginScreen')
+            navigation.reset(user ? {index: 0, routes: [{name: 'DrawerScreen'}]} : {index: 0, routes: [{name: 'LoginScreen'}]})
         })
     }, []) 
     return (

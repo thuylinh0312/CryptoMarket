@@ -13,10 +13,6 @@ export const deleteFavoriteList = (id) => ({
   id,
   type: 'DELETE_FAVORITE_LIST_REQUESTED'
 })
-export const setId = (id) => ({
-  id,
-  type: 'SET_ID'
-})
 export const resetCoinList = () => ({
   type: 'RESET_COIN_LIST'
 })

@@ -3,13 +3,11 @@ import {ActivityIndicator, View, FlatList, StyleSheet} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import { fetchCoinList } from '../../actions/coinListAction'
 import { toggleCurrency } from '../../actions/coinListAction'
-
 import { CoinListItem } from './components/coinListItem'
 import { HeaderOptions } from './components/HeaderOptions'
 import { OptionModal } from './components/OptionModal'
 import { Header } from './components/Header'
 import { fetchFavoriteList } from '../../actions/coinListAction'
-import { setId } from '../../actions/coinListAction'
 import { addFavoriteList } from '../../actions/coinListAction'
 import { deleteFavoriteList } from '../../actions/coinListAction'
 
@@ -30,14 +28,7 @@ const CoinListScreen = ({navigation}) => {
   const toggle = useSelector(state => {
     return state.favoriteList.favList
   })
-
-  let displayList;
-  if (!toggle){
-    displayList = list
-  }else{
-    displayList = list.filter(value => favoriteList.includes(value.id));
-  }
-
+  const displayList = !toggle ? list : list.filter(value => favoriteList.includes(value.id))
   useEffect(()=>{
     dispatch(fetchFavoriteList())
   },[])
@@ -73,7 +64,6 @@ const CoinListScreen = ({navigation}) => {
               <View style = {styles.item}>
                 <CoinListItem item={item} onFavourite={() => {
                   if (favoriteList.includes(item.id)){
-                    // dispatch(setId(item.id))
                     dispatch(deleteFavoriteList(item.id))
                   }else{
                     dispatch(addFavoriteList(item.id))

@@ -13,14 +13,14 @@ const EmailScreen = ({navigation}) => {
     );
 
     const reauthenticate = (currentPassword) => {
-        let user = firebase.auth().currentUser;
+        const user = firebase.auth().currentUser;
         let cred = firebase.auth.EmailAuthProvider.credential(
             user.email, currentPassword);
         return user.reauthenticateWithCredential(cred);
     }
     const changeEmail = () => {
         reauthenticate(currentPassword).then(() => {
-        let user = firebase.auth().currentUser;
+        const user = firebase.auth().currentUser;
         user.updateEmail(newEmail).then(() => {
             alert("Thay đổi email thành công!")
             setCurrentPassword("")
