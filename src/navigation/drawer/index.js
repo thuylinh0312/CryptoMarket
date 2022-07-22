@@ -5,6 +5,7 @@ import { images } from '../../../assets/images';
 import auth from '@react-native-firebase/auth';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 const DrawerComponent = (props) => {
+    const user = auth().currentUser
     const [display, setDisplay] = useState(false)
     const logOutPress = () => {
         auth().signOut().then(() => console.log('User signed out!'));
@@ -18,7 +19,8 @@ const DrawerComponent = (props) => {
         <DrawerContentScrollView {...props}>
             <View style = {styles.acc}>
                 <TouchableOpacity onPress={() => props.navigation.navigate("AccountScreen")}>
-                    <Image style = {styles.img} source={images.acc}/>
+                    {user.photoURL === null ?  <Image style = {styles.img} source={images.acc}/>
+                    :  <Image  source={{uri: user.photoURL}} style={styles.img}></Image>}
                 </TouchableOpacity>
                 <Text style = {styles.textAcc}>Hi, {auth().currentUser.displayName}</Text>
             </View>

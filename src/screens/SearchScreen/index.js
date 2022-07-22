@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {View, Text, TouchableOpacity, TextInput, ActivityIndicator, FlatList, StyleSheet} from 'react-native'
+import {View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet} from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useSelector, useDispatch} from 'react-redux'
 import { changeSearchValue } from '../../actions/coinListAction'
@@ -13,16 +13,15 @@ const SearchScreen = ({navigation}) => {
       return state.searchList.searchValue
   })
   const list = useSelector(state => {
-    return state.coinList.list
+    return state.coinListOption.list
   })
   const listSearch = list.filter(e => e.name.toLowerCase().includes(searchValue) );
  
   const sortSaga = useSelector(state => {
     return state.coinListOption
   })
-  const getCoinList = async () => { dispatch(fetchCoinList(sortSaga)) }
   useEffect(() => {
-      if(list.length === 0){getCoinList()}
+      if(list.length === 0){dispatch(fetchCoinList(sortSaga))}
   },[]) 
 
   const ItemDivider = () => {

@@ -1,5 +1,4 @@
-export const fetchCoinList = (sortSaga) => ({
-  sortSaga,
+export const fetchCoinList = () => ({
   type: 'FETCH_COIN_LIST_REQUESTED'
 })
 export const fetchFavoriteList = () => ({
@@ -12,9 +11,6 @@ export const addFavoriteList = (id) => ({
 export const deleteFavoriteList = (id) => ({
   id,
   type: 'DELETE_FAVORITE_LIST_REQUESTED'
-})
-export const resetCoinList = () => ({
-  type: 'RESET_COIN_LIST'
 })
 
 export const percentChangeCoinList = ({percentValue}) => ({
@@ -43,4 +39,8 @@ export const changeSearchValue = (str) => ({
 })
 export const openFavoriteList = () => ({
   type: 'OPEN_FAVORITE_LIST'
+})
+export const sortList = (arr) => ({
+  arr,
+  type: 'SORT_LIST'
 })
