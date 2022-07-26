@@ -26,7 +26,7 @@ export const Tabs = () => {
           headerShown: false,
           tabBarLabel: 'Home',
           tabBarIcon: ({ focused}) => (
-            <Icon name="home" size={30} color={focused ? "blue" : "gray"} />
+            <Icon name="home" size={30} color={focused ? "blue" : "gray"}/>
           ),
         }}
       />

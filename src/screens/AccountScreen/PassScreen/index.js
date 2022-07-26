@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Icon from 'react-native-vector-icons/AntDesign';
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, Alert} from 'react-native'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView} from 'react-native'
 import auth, { firebase } from '@react-native-firebase/auth';
 
 const PassScreen = ({navigation}) => {
@@ -48,38 +48,42 @@ const PassScreen = ({navigation}) => {
                 </TouchableOpacity>
                 <Text style = {styles.texttt}>Change password</Text>
             </View>
-            <View>
-                <Text style = {styles.text}> Current Password</Text>
-                <View style = {styles.pass}>
-                    <TextInput
-                    value={currentPassword}
-                    onChangeText={text => setCurrentPassword(text)}
-                    placeholder = "Enter your current password..."
-                    secureTextEntry
-                    />
-                    
-                </View>
-                <Text style = {styles.text}> New Password</Text>
-                <View style = {styles.pass}>
-                    <TextInput
-                    value={newPass}
-                    onChangeText={text => setNewPass(text)}
-                    placeholder = "Enter your new password..."
-                    secureTextEntry
-                    />
-                </View>
-                <Text style = {styles.text}> Confirm New Password</Text>
-                <View style = {styles.pass}>
-                    <TextInput
-                    value={confirmPass}
-                    onChangeText={text => setConfirmPass(text)}
-                    placeholder = "Repeat your new password..."
-                    secureTextEntry
-                    />                 
-                </View>
-            </View>
+
             
+            <ScrollView>
+                <View>
+                    <Text style = {styles.text}> Current Password</Text>
+                    <View style = {styles.pass}>
+                        <TextInput
+                        value={currentPassword}
+                        onChangeText={text => setCurrentPassword(text)}
+                        placeholder = "Enter your current password..."
+                        secureTextEntry
+                        />
+                        
+                    </View>
+                    <Text style = {styles.text}> New Password</Text>
+                    <View style = {styles.pass}>
+                        <TextInput
+                        value={newPass}
+                        onChangeText={text => setNewPass(text)}
+                        placeholder = "Enter your new password..."
+                        secureTextEntry
+                        />
+                    </View>
+                    <Text style = {styles.text}> Confirm New Password</Text>
+                    <View style = {styles.pass}>
+                        <TextInput
+                        value={confirmPass}
+                        onChangeText={text => setConfirmPass(text)}
+                        placeholder = "Repeat your new password..."
+                        secureTextEntry
+                        />                 
+                    </View>
+                </View>
+            </ScrollView>
         </View>
+        
 
         <View style = {styles.updatePass}>
             <TouchableOpacity onPress={() => changePass() }>

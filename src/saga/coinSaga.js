@@ -4,10 +4,11 @@ import { ApiUtil } from '../configs/ApiConfig';
 
 function* fetchCoinList(value) {
     try {
-        const data = yield call(() => 
-        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&sort_dir=${value.sortSaga.sortDir}&limit=50&convert=USD,BTC${value.sortSaga.type}${value.sortSaga.sortValue}`)   
+        console.log("goi Api")
+        const data = yield call(() =>  
+        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&sort_dir=desc&limit=30&convert=USD,BTC`) 
         );
-        yield put({type: "FETCH_COIN_LIST_SUCCESS", list: data.data.data});
+        yield put({type: "FETCH_COIN_LIST_SUCCESS", list: data.data.data });
     } catch (e) {
         console.log("error",e)
     }

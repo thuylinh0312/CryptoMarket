@@ -5,7 +5,6 @@ import { images } from '../../../assets/images';
 
 
 const HomeScreen = ({navigation}) => {
-
   return (
     <View style={styles.container}>
       <View style = {styles.title}>

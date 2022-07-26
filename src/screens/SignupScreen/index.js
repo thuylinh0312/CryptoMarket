@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, KeyboardAvoidingView, ScrollView} from 'react-native'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView} from 'react-native'
 import auth from '@react-native-firebase/auth';
 
 const SignupScreen = ({navigation}) => {
@@ -55,6 +55,7 @@ const SignupScreen = ({navigation}) => {
 
     return (
     <View style={styles.container}>
+        <ScrollView>
         <View  style = {{flex: 1}}>
             <Text style = {styles.textSignup}>Sign Up</Text>
 
@@ -92,7 +93,7 @@ const SignupScreen = ({navigation}) => {
             
             </View>
         </View>
-        
+        </ScrollView>
 
         <View style = {styles.createAcc}>
             <TouchableOpacity  onPress={() => handleSignUp() }>
@@ -112,7 +113,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 20,
-        backgroundColor: "yellow"
     },
     textSignup: {
         marginTop: 5, 
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     createAcc: {
-        backgroundColor: "red",
+        backgroundColor: "gray",
         borderColor: "gray", 
         borderWidth: 1,  
         marginBottom: 5,

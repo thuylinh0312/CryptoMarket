@@ -1,7 +1,6 @@
 const initialState = {
     favorite: [],
     favList: false,
-    itemId: ""
 };
 const favoriteCoinList = (state = initialState, action) => {
     switch(action.type) {

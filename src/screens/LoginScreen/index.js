@@ -41,6 +41,7 @@ const LoginScreen = ({navigation}) => {
 
     return (
     <View style={styles.container}>
+        <ScrollView>
         <View  style = {{flex: 1}}>
             <Text style = {{marginTop: 30}}>Welcome!</Text>
             <Text style = {styles.textLogin}>Login</Text>
@@ -77,6 +78,7 @@ const LoginScreen = ({navigation}) => {
                 </TouchableOpacity>
             </View>
         </View>
+        </ScrollView>
         
 
         <View style = {styles.logIn}>
