@@ -40,7 +40,11 @@ export const changeSearchValue = (str) => ({
 export const openFavoriteList = () => ({
   type: 'OPEN_FAVORITE_LIST'
 })
-export const sortList = (arr) => ({
-  arr,
-  type: 'SORT_LIST'
+export const uploadImage = (path) => ({
+  path,
+  type: 'UPLOAD_IMAGE'
+})
+export const updateDisplayName = (str) => ({
+  str,
+  type: 'UPDATE_DISPLAY_NAME'
 })

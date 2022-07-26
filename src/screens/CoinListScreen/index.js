@@ -23,22 +23,23 @@ const CoinListScreen = ({navigation}) => {
   const list = useSelector(state => {
       return state.coinListOption.list
   })
+  const cloneList = [...list]
   const sortList = useMemo(() => {
     switch(sortBy){
       case "Sort by Rank":
-        return list
+        return cloneList
       case "Sort by %":
-        return list.sort(function(a, b){return a.quote.BTC.percent_change_24h - b.quote.BTC.percent_change_24h});
+        return cloneList.sort((a, b) => a.quote.BTC.percent_change_24h - b.quote.BTC.percent_change_24h);
       case "Sort by MC":
-        return list.sort(function(a, b){return a.quote.BTC.market_cap - b.quote.BTC.market_cap});
+        return cloneList.sort((a, b) => a.quote.BTC.market_cap - b.quote.BTC.market_cap);
       case "Sort by Vol (24h)":
-        return list.sort(function(a, b){return a.quote.BTC.volume_24h - b.quote.BTC.volume_24h});
+        return cloneList.sort((a, b) => a.quote.BTC.volume_24h - b.quote.BTC.volume_24h);
       case "Sort by C. Supply":
-        return list.sort(function(a, b){return a.circulating_supply - b.circulating_supply});
+        return cloneList.sort((a, b) =>a.circulating_supply - b.circulating_supply);
       case "Sort by Price":
-        return list.sort(function(a, b){return a.quote.BTC.price - b.quote.BTC.price});
+        return cloneList.sort((a, b) => a.quote.BTC.price - b.quote.BTC.price);
       case "Sort by Name":
-        return list.sort((a, b) => a.name.localeCompare(b.name))
+        return cloneList.sort((a, b) => a.name.localeCompare(b.name))
     }
   })
   const favoriteList = useSelector(state => {
@@ -70,7 +71,7 @@ const CoinListScreen = ({navigation}) => {
       case "desc":
         return arr
       case "asc":
-        return arr.reverse()
+        return [...arr].reverse()
     }
   })
   useEffect(() => {

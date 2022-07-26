@@ -17,11 +17,8 @@ const SearchScreen = ({navigation}) => {
   })
   const listSearch = list.filter(e => e.name.toLowerCase().includes(searchValue) );
  
-  const sortSaga = useSelector(state => {
-    return state.coinListOption
-  })
   useEffect(() => {
-      if(list.length === 0){dispatch(fetchCoinList(sortSaga))}
+      if(list.length === 0){dispatch(fetchCoinList())}
   },[]) 
 
   const ItemDivider = () => {
