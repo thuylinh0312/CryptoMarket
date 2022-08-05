@@ -14,9 +14,9 @@ const LoginScreen = ({navigation}) => {
             auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
-                navigation.navigate("LoadingScreen")
                 setEmail("")
                 setPassword("")
+                navigation.navigate("LoadingScreen")
             })
             .catch(error => {
                 if (error.code === 'auth/wrong-password') {

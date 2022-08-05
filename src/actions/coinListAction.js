@@ -1,6 +1,10 @@
 export const fetchCoinList = () => ({
   type: 'FETCH_COIN_LIST_REQUESTED'
 })
+export const fetchChartCoinList = (value) => ({
+  value,
+  type: 'FETCH_CHART_COIN_LIST_REQUESTED'
+})
 export const fetchFavoriteList = () => ({
   type: 'FETCH_FAVORITE_LIST_REQUESTED'
 })
@@ -47,4 +51,20 @@ export const uploadImage = (path) => ({
 export const updateDisplayName = (str) => ({
   str,
   type: 'UPDATE_DISPLAY_NAME'
+})
+export const setId = (str) => ({
+  str,
+  type: 'SET_ID'
+})
+export const setValue = (str) => ({
+  str,
+  type: 'SET_VALUE'
+})
+export const setDisplayPrice = (value) => ({
+  value,
+  type: 'SET_DISPLAY_PRICE'
+})
+export const setDisplayTime = (time) => ({
+  time,
+  type: 'SET_DISPLAY_TIME'
 })

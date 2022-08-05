@@ -2,9 +2,8 @@ import { call, put, takeEvery, all} from 'redux-saga/effects'
 import axios from 'axios';
 import { ApiUtil } from '../configs/ApiConfig';
 
-function* fetchCoinList(value) {
+function* fetchCoinList() {
     try {
-        console.log("goi Api")
         const data = yield call(() =>  
         axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&sort_dir=desc&limit=30&convert=USD,BTC`) 
         );
@@ -17,14 +16,26 @@ function* coinListSaga() {
     yield takeEvery("FETCH_COIN_LIST_REQUESTED", fetchCoinList);
 }
 
-
+function* fetchChartCoinList(value) {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical?id=${value.value.idReducer}&convert=usd,btc&format=chart_crypto_details&interval=${value.value.time}&count=${value.value.num}`) 
+        );
+        yield put({type: "FETCH_CHART_COIN_LIST_SUCCESS", listValue: data.data.data});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* chartCoinListSaga() {
+    yield takeEvery("FETCH_CHART_COIN_LIST_REQUESTED", fetchChartCoinList);
+}
 
 function* fetchFavoriteList() {
     try {
         const data = yield call(() => 
         ApiUtil.callApi({url: 'app/get-favourites', method: 'GET'})
         );
-        yield put({type: "FETCH_FAVORITE_LIST_SUCCESS", favorite: data.data.favourites});
+        yield put({type: "FETCH_FAVORITE_LIST_SUCCESS", favorite: data.data ? data.data.favourites : []});
     } catch (e) {
         console.log("error",e)
     }
@@ -68,6 +79,7 @@ export default function* coinSaga () {
         coinListSaga(),
         favoriteListSaga(),
         addFavoriteListSaga(),
-        deleteFavoriteListSaga()
+        deleteFavoriteListSaga(),
+        chartCoinListSaga(),
     ]) 
 }

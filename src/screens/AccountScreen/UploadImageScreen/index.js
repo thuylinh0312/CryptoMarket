@@ -1,5 +1,5 @@
-import React , {useState, useRef} from 'react'
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native'
+import React , {useState, useRef, useEffect} from 'react'
+import {View, Text, TouchableOpacity, Image, StyleSheet, Alert, BackHandler} from 'react-native'
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { images } from '../../../../assets/images';
@@ -14,14 +14,15 @@ import { uploadImage } from '../../../actions/coinListAction';
 const UploadImageScreen = ({navigation}) => {
     const dispatch = useDispatch() 
     const user = auth().currentUser
-    const [display, setDisplay] = useState(user.photoURL);
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(user.photoURL);
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
+    const [check, setCheck] = useState(false)
     const update =(image) => {
         setImage(image)
-        setDisplay(image)
-        dispatch(uploadImage(image))
+        modalizeRef.current.close()
+        setCheck(true)
+ 
     }
     const uploadImageFirebase = async () => {
         const uploadUri = image;
@@ -38,11 +39,13 @@ const UploadImageScreen = ({navigation}) => {
             await task;
             const url = await storageRef.getDownloadURL();
             user.updateProfile({photoURL: url})  
+            dispatch(uploadImage(image))
         } catch (e) {
             console.error(e);
         }
         
         setUploading(false);
+        setCheck(false)
         alert("Cập nhật ảnh thành công!")
     };
 
@@ -71,26 +74,52 @@ const UploadImageScreen = ({navigation}) => {
             update(image.path)
         });
     }
+    const creatAlert = () => {
+        Alert.alert(
+                "Hình ảnh chưa được cập nhập",
+                "Bạn muốn lưu thay đổi không?",
+                [
+                    { text: "Cancel", onPress: () =>  navigation.goBack()},
+                    { text: "OK", onPress: () => uploadImageFirebase()}
+                ]
+            );
+    }
+    useEffect(() => {
+        if(check){
+            const backAction = () => {
+                creatAlert()
+                return true;
+            }
+            const backHandler = BackHandler.addEventListener(
+                "hardwareBackPress",
+                backAction
+            )
+            return () => backHandler.remove();
+        }   
+    }, [check]) 
     return (
     <View style={styles.container}>
         <View style = {{margin: 20}}>
             <View style = {styles.title}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => check ? creatAlert() :  navigation.goBack()}>
                     <Icon name="arrowleft" size={30} color={ "black"}/>
                 </TouchableOpacity>
                 <Text style = {styles.texttt}>Change profile picture</Text>
             </View>
             <View>
-                {display === null ?  <Image style = {styles.img} source={images.acc}/>
-                :  image !== null ? <Image  source={{uri: image}} style={styles.img}/> 
-                : <Image  source={{uri: display}} style={styles.img}/>}
-                <View style = {{flexDirection: "row", justifyContent: "space-between"}}>
-                    <TouchableOpacity style={styles.button} onPress={onOpen}>
+                {image === null ?  <Image style = {styles.img} source={images.acc}/>
+                :  <Image  source={{uri: image}} style={styles.img}/> }
+                <View style = {styles.pick}>
+                    {!check ? <TouchableOpacity style={styles.button} onPress={onOpen}>
                         <Text style={styles.buttonText}>Pick image</Text>
                     </TouchableOpacity>
+                    : 
                     <TouchableOpacity style={styles.button} onPress={uploadImageFirebase}>
                         <Text style={styles.buttonText}>Upload image</Text>
                     </TouchableOpacity>
+                    }
+                    
+                    
                 </View>  
             </View>
             {uploading ? (
@@ -176,5 +205,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgray',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    pick: {
+        flexDirection: "row", 
+        justifyContent: "center"
     },
 });

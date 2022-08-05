@@ -11,6 +11,7 @@ import EmailScreen from '../screens/AccountScreen/EmailScreen';
 import LoadingScreen from '../screens/LoadingScreen';
 import SettingScreen from '../screens/SettingScreen';
 import UploadImageScreen from '../screens/AccountScreen/UploadImageScreen';
+import OverviewScreen from '../screens/OverviewScreen';
 import { Tabs } from './tabbottom';
 import DrawerComponent from './drawer';
 
@@ -42,6 +43,7 @@ export const AppNavigation = () => {
         <Stack.Screen  name='LoadingScreen' component={LoadingScreen} />
         <Stack.Screen  name='SettingScreen' component={SettingScreen} />
         <Stack.Screen  name='DrawerScreen' component={DrawerScreen} />
+        <Stack.Screen  name='OverviewScreen' component={OverviewScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

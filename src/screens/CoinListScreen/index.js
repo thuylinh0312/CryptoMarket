@@ -23,8 +23,9 @@ const CoinListScreen = ({navigation}) => {
   const list = useSelector(state => {
       return state.coinListOption.list
   })
-  const cloneList = [...list]
+  
   const sortList = useMemo(() => {
+    const cloneList = [...list]
     switch(sortBy){
       case "Sort by Rank":
         return cloneList
@@ -104,7 +105,7 @@ const CoinListScreen = ({navigation}) => {
           renderItem={({item, index}) => { 
             return (
               <View style = {styles.item}>
-                <CoinListItem item={item} onFavourite={() => {
+                <CoinListItem navigation = {navigation} item={item} onFavourite={() => {
                   if (favoriteList.includes(item.id)){
                     dispatch(deleteFavoriteList(item.id))
                   }else{

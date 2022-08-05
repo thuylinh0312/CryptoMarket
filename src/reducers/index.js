@@ -3,10 +3,12 @@ import coinListOptionReducer from './coinListOption'
 import favoriteCoinList from './favoriteCoinList'
 import searchCoinList from './searchCoinList'
 import updateProfileFirebase from './updateProfileFirebase'
+import chartCoinList from './chartCoinList'
 
 export default combineReducers({
     coinListOption: coinListOptionReducer,
     favoriteList: favoriteCoinList,
     searchList: searchCoinList,
     updateProfile: updateProfileFirebase,
+    chartList: chartCoinList,
 })
