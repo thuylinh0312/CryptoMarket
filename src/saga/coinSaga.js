@@ -3,9 +3,10 @@ import axios from 'axios';
 import { ApiUtil } from '../configs/ApiConfig';
 
 function* fetchCoinList() {
+    console.log("goi api list")
     try {
         const data = yield call(() =>  
-        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&sort_dir=desc&limit=30&convert=USD,BTC`) 
+        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&sort_dir=desc&limit=5000&convert=USD,BTC`) 
         );
         yield put({type: "FETCH_COIN_LIST_SUCCESS", list: data.data.data });
     } catch (e) {
@@ -28,6 +29,48 @@ function* fetchChartCoinList(value) {
 }
 function* chartCoinListSaga() {
     yield takeEvery("FETCH_CHART_COIN_LIST_REQUESTED", fetchChartCoinList);
+}
+
+function* fetchCandleChartCoinList(value) {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical?id=${value.value.idReducer}&convert=usd,btc&interval=${value.value.interval}&count=${value.value.count}&time_period=${value.value.time_period}`) 
+        );
+        yield put({type: "FETCH_CANDLE_CHART_COIN_LIST_SUCCESS", listValue: data.data.data.quotes.map(e => e.quote)});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* candleChartCoinListSaga() {
+    yield takeEvery("FETCH_CANDLE_CHART_COIN_LIST_REQUESTED", fetchCandleChartCoinList);
+}
+
+function* addMoreNews(page) {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://api.coinmarketcap.com/content/v3/news?page=${page.page}&size=20`) 
+        );
+        yield put({type: "ADD_MORE_NEWS_SUCCESS", moreData: data.data.data});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* addMoreNewsSaga() {
+    yield takeEvery("ADD_MORE_NEWS_REQUESTED", addMoreNews);
+}
+
+function* addMoreNewsId(value) {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://api.coinmarketcap.com/content/v3/news?page=${value.page}&size=20&coins=${value.id}`) 
+        );
+        yield put({type: "ADD_MORE_NEWS_ID_SUCCESS", moreData: data.data.data});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* addMoreNewsIdSaga() {
+    yield takeEvery("ADD_MORE_NEWS_ID_REQUESTED", addMoreNewsId);
 }
 
 function* fetchFavoriteList() {
@@ -81,5 +124,8 @@ export default function* coinSaga () {
         addFavoriteListSaga(),
         deleteFavoriteListSaga(),
         chartCoinListSaga(),
+        candleChartCoinListSaga(),
+        addMoreNewsSaga(),
+        addMoreNewsIdSaga()
     ]) 
 }

@@ -10,22 +10,28 @@ import { Header } from './components/Header'
 import { fetchFavoriteList } from '../../actions/coinListAction'
 import { addFavoriteList } from '../../actions/coinListAction'
 import { deleteFavoriteList } from '../../actions/coinListAction'
+import { addList } from '../../actions/coinListAction'
+import Lottie from 'lottie-react-native';
 
 const CoinListScreen = ({navigation}) => {
+  
   const modalRef = useRef(null)
   const dispatch = useDispatch() 
-  const sortValue = useSelector(state => {
-    return state.coinListOption.sortDir
+  const {sortDir: sortValue, list: fullList, partList: list} = useSelector(state => {
+    return state.coinListOption
   })
   const sortBy = useSelector(state => {
     return state.coinListOption.data[1].title
   })
-  const list = useSelector(state => {
-      return state.coinListOption.list
+  const {favorite: favoriteList, favList: toggle} = useSelector(state => {
+    return state.favoriteList
   })
-  
+ 
+  const type = useSelector(state => {
+    return state.coinListOption.data[3].title
+  })
   const sortList = useMemo(() => {
-    const cloneList = [...list]
+    const cloneList = !toggle ? [...list] :  [...fullList]
     switch(sortBy){
       case "Sort by Rank":
         return cloneList
@@ -43,17 +49,7 @@ const CoinListScreen = ({navigation}) => {
         return cloneList.sort((a, b) => a.name.localeCompare(b.name))
     }
   })
-  const favoriteList = useSelector(state => {
-    return state.favoriteList.favorite
-  })
- 
-  const type = useSelector(state => {
-    return state.coinListOption.data[3].title
-  })
-
-  const toggle = useSelector(state => {
-    return state.favoriteList.favList
-  })
+  
 
   const arr = useMemo(() => {
     const displayList = !toggle ? sortList : sortList.filter(value => favoriteList.includes(value.id))
@@ -80,6 +76,7 @@ const CoinListScreen = ({navigation}) => {
     dispatch(fetchFavoriteList())
   }, []) 
 
+
   const ItemDivider = () => {
     return (
       <View style={styles.divider}/>
@@ -98,26 +95,38 @@ const CoinListScreen = ({navigation}) => {
     <View style={styles.container}>
       <Header navigation = {navigation}/>
       <HeaderOptions onPressOption={(id) => checkId(id)} />
-      {array.length === 0 ? <ActivityIndicator /> : (
-        <FlatList
-          keyExtractor={(item) => item.id.toString()}
-          data={ array  ?? []}
-          renderItem={({item, index}) => { 
-            return (
-              <View style = {styles.item}>
-                <CoinListItem navigation = {navigation} item={item} onFavourite={() => {
-                  if (favoriteList.includes(item.id)){
-                    dispatch(deleteFavoriteList(item.id))
-                  }else{
-                    dispatch(addFavoriteList(item.id))
-                  }
-                }} />
-              </View>                
-            )     
-          }}
-          ItemSeparatorComponent={ItemDivider}
+      {array.length === 0 ? 
+        <Lottie 
+          style = {styles.lottie}
+          source={require('../../../assets/lotties/98877-search.json')} 
+          autoPlay loop 
         />
-      )}
+        : 
+        (
+          <FlatList
+            keyExtractor={(item) => item.id.toString()}
+            data={ array  ?? []}
+            renderItem={({item, index}) => { 
+              return (
+                <View style = {styles.item}>
+                  <CoinListItem navigation = {navigation} item={item} onFavourite={() => {
+                    if (favoriteList.includes(item.id)){
+                      dispatch(deleteFavoriteList(item.id))
+                    }else{
+                      dispatch(addFavoriteList(item.id))
+                    }
+                  }} />
+                </View>                
+              )     
+            }}
+            ItemSeparatorComponent={ItemDivider}
+            
+            ListFooterComponent = {toggle ? null : <ActivityIndicator size="small" />}
+            onEndReached = {() => {
+              dispatch(addList(list.concat(fullList.slice(list.length, list.length + 20))))
+            }}
+          />
+        )}
       <OptionModal ref={modalRef} />
     </View>
   )
@@ -133,6 +142,12 @@ const styles = StyleSheet.create({
   divider: {
     width: "100%",
     backgroundColor: "lightgray" 
+  },
+  lottie: {
+    width: 300, 
+    height: 300, 
+    alignSelf: "center", 
+    marginTop: 30
   }
 
 });

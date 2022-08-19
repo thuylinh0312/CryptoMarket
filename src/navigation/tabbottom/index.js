@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../../screens/HomeScreen';
+import ExploreScreen from '../../screens/ExploreScreen';
 import CoinListScreen from '../../screens/CoinListScreen';
 import PortfolioScreen from '../../screens/PortfolioScreen';
 import FeedScreen from '../../screens/FeedScreen';
@@ -19,17 +19,7 @@ export const Tabs = () => {
       }}
       
     >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerShown: false,
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ focused}) => (
-            <Icon name="home" size={30} color={focused ? "blue" : "gray"}/>
-          ),
-        }}
-      />
+      
       <Tab.Screen
         name="CoinList"
         component={CoinListScreen}
@@ -38,6 +28,17 @@ export const Tabs = () => {
           tabBarLabel: 'CoinList',
           tabBarIcon: ({ focused }) => (
             <Icon name="barschart" size={30} color={focused ? "blue" : "gray"}/>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Explore',
+          tabBarIcon: ({ focused}) => (
+            <Icon name="search1" size={30} color={focused ? "blue" : "gray"}/>
           ),
         }}
       />

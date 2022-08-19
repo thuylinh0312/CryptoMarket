@@ -9,7 +9,7 @@ const initialState = {
         {id: "tt4", title: "All Cryptocurrencies"},
     ],
     sortDir:  SORT_DIR_VALUE[0],
-   
+    partList: []
 };
 
 
@@ -23,6 +23,12 @@ const coinListOptionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 list: action.list,
+                partList: action.list.slice(0,20),
+            }
+        case 'ADD_LIST':
+            return {
+                ...state,
+                partList: action.list,
             }
         case 'SORT_BY_COIN_LIST':
             const sort = [...state.data]

@@ -1,9 +1,30 @@
+
+export const addMoreNews = (page) => ({
+  page,
+  type: 'ADD_MORE_NEWS_REQUESTED'
+})
+export const addMoreNewsId = (id, page) => ({
+  id,
+  page,
+  type: 'ADD_MORE_NEWS_ID_REQUESTED'
+})
+export const resetNews = () => ({
+  type: 'RESET_NEWS'
+})
+export const addList = (list) => ({
+  list,
+  type: 'ADD_LIST'
+})
 export const fetchCoinList = () => ({
   type: 'FETCH_COIN_LIST_REQUESTED'
 })
 export const fetchChartCoinList = (value) => ({
   value,
   type: 'FETCH_CHART_COIN_LIST_REQUESTED'
+})
+export const fetchCandleChartCoinList = (value) => ({
+  value,
+  type: 'FETCH_CANDLE_CHART_COIN_LIST_REQUESTED'
 })
 export const fetchFavoriteList = () => ({
   type: 'FETCH_FAVORITE_LIST_REQUESTED'

@@ -6,43 +6,33 @@ import { deleteFavoriteList } from '../../actions/coinListAction';
 import { addFavoriteList } from '../../actions/coinListAction';
 import { setValue } from '../../actions/coinListAction';
 import { fetchChartCoinList } from '../../actions/coinListAction';
+import { fetchCandleChartCoinList } from '../../actions/coinListAction';
 import { setDisplayPrice } from '../../actions/coinListAction';
 import { setDisplayTime } from '../../actions/coinListAction';
 import { images } from '../../../assets/images';
 import { ChartCoinList } from './components/ChartCoinList';
+import { TimeTitle } from './components/TimeTitle';
 
 const OverviewScreen = ({navigation}) => {
     const dispatch = useDispatch() 
-    const displayPrice = useSelector(state => {
-        return state.chartList.displayPrice
-    })
-    const displayTime = useSelector(state => {
-        return state.chartList.displayTime
-    })
-    const time = useSelector(state => {
-        return state.chartList.time
-    })
-    const num = useSelector(state => {
-        return state.chartList.num
-    })
-    const idReducer = useSelector(state => {
-        return state.chartList.id
+    const [chart, setChart] = useState(true)
+    const [displayVolume, setDisplayVolume] = useState(true)
+    const [togglePrice, setTogglePrice] = useState(true)
+
+    const {displayPrice, displayTime, time, num, id: idReducer, listValue, value,
+        listCandleChart, interval, count, time_period } = useSelector(state => {
+        return state.chartList
     })
     useEffect(() => {
         dispatch(fetchChartCoinList({idReducer, time, num}))
     }, [time, num]) 
-    const listValue = useSelector(state => {
-        return state.chartList.listValue
-    })
-    const [chart, setChart] = useState(true)
-    const [displayVolume, setDisplayVolume] = useState(true)
-    const [togglePrice, setTogglePrice] = useState(true)
+    useEffect(() => {
+        if(!chart){
+            dispatch(fetchCandleChartCoinList({idReducer, interval, count, time_period}))
+        }
+    }, [interval, count, time_period])
     const favoriteList = useSelector(state => {
         return state.favoriteList.favorite
-    })
-    
-    const value = useSelector(state => {
-        return state.chartList.value
     })
     const item = useSelector(state => {
         return state.coinListOption.list.filter(e => e.id === idReducer );
@@ -119,12 +109,6 @@ const OverviewScreen = ({navigation}) => {
                 <Icon style={{marginLeft:12}} name={favoriteList.includes(idReducer) ? "star" : "staro"} size={25} color="black"/>
             </TouchableOpacity>
         </View>
-        <View style = {styles.changePage}>
-            <Text style={styles.texttt}>Overview</Text>
-            <Text style={styles.texttt}>Live Chat</Text>
-            <Text style={styles.texttt}>Markets</Text>
-            <Text style={styles.texttt}>Portfolio</Text>
-        </View>
             {item === [] ? null :
             <View style = {styles.title}>
                 <View >
@@ -142,58 +126,45 @@ const OverviewScreen = ({navigation}) => {
             }  
 
         <View style = {styles.choose}>
-            <TouchableOpacity onPress={() =>  dispatch(setValue("1h"))}>
-                <Text style={value === "1h" ? styles.text2 : styles.text1}>1h</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() =>  dispatch(setValue("24h"))}>
-                <Text style={value === "24h" ? styles.text2 : styles.text1}>24h</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() =>  dispatch(setValue("7d"))}>
-                <Text style={value === "7d" ? styles.text2 : styles.text1}>7d</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() =>  dispatch(setValue("30d"))}>
-                <Text style={value === "30d" ? styles.text2 : styles.text1}>30d</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() =>  dispatch(setValue("60d"))}>
-                <Text style={value === "60d" ? styles.text2 : styles.text1}>60d</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() =>  dispatch(setValue("90d"))}>
-                <Text style={value === "90d" ? styles.text2 : styles.text1}>90d</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() =>  setChart(!chart)}>
+             {!chart ? null :  <TimeTitle title = "1h"/>}
+            <TimeTitle title = "24h"/>
+            <TimeTitle title = "7d"/>
+            <TimeTitle title = "30d"/>
+            <TimeTitle title = "60d"/>
+            <TimeTitle title = "90d"/>
+            <TouchableOpacity onPress={() =>  {
+                setChart(!chart)
+                dispatch(setValue("24h"))
+                dispatch(setDisplayPrice(0))
+                dispatch(setDisplayTime(""))
+            }}>
                 {chart ? <Icon name="linechart" size={25} color={ "black"}/>: <Image style = {styles.icon_chart} source={images.chart}/>}
             </TouchableOpacity>
         </View>
-        <View style = {{flex: 1, marginBottom: 8}}>
-            <ChartCoinList listValue = {listValue} displayVolume = {displayVolume} togglePrice = {togglePrice}/>
-        </View>
-        <View>
-            
-
-
-        </View>
-        {!chart ? null : 
-            <View style = {styles.bottom}>
-                <TouchableOpacity onPress={() =>  setDisplayVolume(!displayVolume)}>
-                    {displayVolume ?  <Image style = {styles.circle} source={images.circle}/>
-                    : <Icon style = {{marginRight: 10}} name= "checkcircleo" size={19} color={ "black"}/>}
-                </TouchableOpacity>
+        <View style = {styles.lineChart}>
+            <ChartCoinList listValue = {listValue} listCandleChart = {listCandleChart} displayVolume = {displayVolume} togglePrice = {togglePrice} chart = {chart}/>
+        </View> 
+        <View style = {styles.bottom}>
+            <TouchableOpacity onPress={() =>  setDisplayVolume(!displayVolume)}>
+                {displayVolume ?  <Image style = {styles.circle} source={images.circle}/>
+                : <Icon style = {{marginRight: 10}} name= "checkcircleo" size={19} color={ "black"}/>}
+            </TouchableOpacity>
                 
-                <Text style = {{marginRight: 12}}>Volume</Text>
-                <TouchableOpacity onPress={() =>  toggleValue()}>
-                    {togglePrice ?  <Image style = {styles.circle} source={images.circle}/>
-                    : <Icon style = {{marginRight: 10}} name= "checkcircleo" size={19} color={ "black"}/>}
-                </TouchableOpacity>
+            <Text style = {{marginRight: 12}}>Volume</Text>
+            <TouchableOpacity onPress={() =>  toggleValue()}>
+                {togglePrice ?  <Image style = {styles.circle} source={images.circle}/>
+                : <Icon style = {{marginRight: 10}} name= "checkcircleo" size={19} color={ "black"}/>}
+            </TouchableOpacity>
                     
-                <Text style = {{marginRight: 12}}>BTC</Text>
-                <TouchableOpacity onPress={() =>  toggleValue()}>
-                    {!togglePrice ?  <Image style = {styles.circle} source={images.circle}/>
-                    : <Icon style = {{marginRight: 10}} name= "checkcircleo" size={19} color={ "black"}/>}
-                </TouchableOpacity>
+            <Text style = {{marginRight: 12}}>BTC</Text>
+            <TouchableOpacity onPress={() =>  toggleValue()}>
+                {!togglePrice ?  <Image style = {styles.circle} source={images.circle}/>
+                : <Icon style = {{marginRight: 10}} name= "checkcircleo" size={19} color={ "black"}/>}
+            </TouchableOpacity>
                     
-                <Text >USD</Text>
-            </View>
-        }      
+            <Text >USD</Text>
+        </View>
+            
     </View>
   )
 }
@@ -241,20 +212,9 @@ export default OverviewScreen
         fontSize: 8 , 
         fontWeight:"bold",
     },
-    text1:{
-        fontSize: 12 , 
-    },
-    text2:{
-        fontSize: 15, 
-        fontWeight:"bold",
-    },
     price: {
         fontSize: 14, 
         fontWeight: "bold"
-    },
-    texttt:{
-        fontSize: 12 , 
-        fontWeight:"bold",
     },
     text_percent:{
         fontSize: 12 , 
@@ -278,17 +238,12 @@ export default OverviewScreen
     title: {
         flexDirection: "row", 
         alignItems: "center",
-        marginBottom: 7
+        marginBottom: 15
     },
     image: {
         width: 35, 
         height: 35, 
         marginHorizontal: 10
-    },
-    changePage: {
-        flexDirection: "row", 
-        justifyContent: "space-between", 
-        marginVertical: 10
     },
     choose: {
         flexDirection: "row", 
@@ -304,6 +259,10 @@ export default OverviewScreen
         alignItems: "center",
         justifyContent: "flex-end", 
         marginRight: 5, 
-        marginBottom: 6
+        marginBottom: 10
+    },
+    lineChart: {
+        flex: 1, 
+        marginBottom: 15
     },
     });

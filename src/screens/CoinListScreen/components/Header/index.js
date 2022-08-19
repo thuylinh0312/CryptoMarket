@@ -1,22 +1,25 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Image, TouchableOpacity, StyleSheet, Text} from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign';
+import auth from '@react-native-firebase/auth';
+import { images } from '../../../../../assets/images';
+import {useSelector, useDispatch} from 'react-redux'
 
 export const Header = ({navigation}) => {
+  const user = auth().currentUser
+  const url = useSelector(state => {
+    return state.updateProfile.url
+  })
   return (
     <View style = {styles.container}>
-      <TouchableOpacity>
-        <Text style = {styles.text}>Cryptoassets</Text>
+      <TouchableOpacity onPress={() => navigation.openDrawer()}>
+        {user.photoURL === null ?  <Image style = {styles.img} source={images.acc}/>
+        :  url === "" ? <Image  source={{uri: user.photoURL}} style={styles.img}/>
+        : <Image  source={{uri: url}} style={styles.img}/>
+        }
       </TouchableOpacity>
-      <TouchableOpacity>
-        <Text style = {styles.text}>Exchanges</Text>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Text style = {styles.text}>Sectors</Text>
-      </TouchableOpacity>
-      <TouchableOpacity  
-      onPress={() => navigation.navigate("SearchScreen")}
-      >
+      <Text style = {styles.text}>Cryptoassets</Text>
+      <TouchableOpacity  onPress={() => navigation.navigate("SearchScreen")}>
         <Icon name="search1" size={25} color={ "black"}/>
       </TouchableOpacity>
     </View>
@@ -24,16 +27,21 @@ export const Header = ({navigation}) => {
 }
 const styles = StyleSheet.create({
     container: {
-        flexDirection: "row",
-        justifyContent: "space-between", 
-        alignItems:"center", 
-        margin: 10,
-        marginTop: 15
+      flexDirection: "row",
+      justifyContent: "space-between", 
+      alignItems:"center", 
+      marginTop: 15,
+      marginHorizontal: 20
     },
     text: {
-        fontSize: 12,
-        fontWeight: "bold"
-    }
+      fontSize: 15,
+      fontWeight: "bold"
+    },
+    img: {
+      width: 40,
+      height: 40,
+      borderRadius: 50
+    },
   });
 
 
