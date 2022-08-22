@@ -3,7 +3,6 @@ import axios from 'axios';
 import { ApiUtil } from '../configs/ApiConfig';
 
 function* fetchCoinList() {
-    console.log("goi api list")
     try {
         const data = yield call(() =>  
         axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&sort_dir=desc&limit=5000&convert=USD,BTC`) 
