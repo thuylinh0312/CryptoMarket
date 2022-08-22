@@ -4,23 +4,35 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { images } from '../../../assets/images';
 import auth from '@react-native-firebase/auth';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
+import {useSelector, useDispatch} from 'react-redux'
 const DrawerComponent = (props) => {
+    
+    const user = auth().currentUser
+    const url = useSelector(state => {
+        return state.updateProfile.url
+    })
+    const name = useSelector(state => {
+        return state.updateProfile.name
+    })
     const [display, setDisplay] = useState(false)
     const logOutPress = () => {
         auth().signOut().then(() => console.log('User signed out!'));
         props.navigation.reset({
             index: 0,
             routes: [{name: 'LoginScreen'}],
-          });
+        });
     }
     return (
     <View style = {styles.container}>
         <DrawerContentScrollView {...props}>
             <View style = {styles.acc}>
                 <TouchableOpacity onPress={() => props.navigation.navigate("AccountScreen")}>
-                    <Image style = {styles.img} source={images.acc}/>
+                    {user.photoURL === null ?  <Image style = {styles.img} source={images.acc}/>
+                    :  url === "" ? <Image  source={{uri: user.photoURL}} style={styles.img}/>
+                    : <Image  source={{uri: url}} style={styles.img}/>
+                    }
                 </TouchableOpacity>
-                <Text style = {styles.textAcc}>Hi, {auth().currentUser.displayName}</Text>
+                <Text style = {styles.textAcc}>Hi, {name === "" ? auth().currentUser.displayName : name}</Text>
             </View>
             <View style = {styles.title}>
                 <Icon name="tool" size={23} color={ "black"}/>

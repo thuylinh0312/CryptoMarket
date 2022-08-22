@@ -1,17 +1,23 @@
 import React from 'react'
-import {View, Image, Text, StyleSheet} from 'react-native'
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import { setId } from '../../../actions/coinListAction'
+import {useSelector, useDispatch} from 'react-redux'
 
 
-export const CoinListSeach = ({item}) => {
-
+export const CoinListSeach = ({item, navigation}) => {
+  const dispatch = useDispatch() 
   return (
     <View style = {styles.container}>
       <Image 
         style={styles.image}
         source={{uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png?_=5bcdbc6`}}
       />
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.symbol}>{item.symbol}</Text>
+      <TouchableOpacity onPress={() => {
+          dispatch(setId(item.id))
+          navigation.navigate("OverviewScreen")
+      }}>
+        <Text style={styles.name}>{item.name}</Text>
+      </TouchableOpacity>
       
     </View> 
   )
@@ -31,10 +37,6 @@ const styles = StyleSheet.create({
         width: 35, 
         height: 35, 
         marginRight: 15
-    },
-    symbol:{
-        fontSize: 9 , 
-        color: "gray"
     },
     
 })

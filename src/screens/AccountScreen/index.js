@@ -1,19 +1,28 @@
 import React, {useState} from 'react'
 import Icon from 'react-native-vector-icons/AntDesign';
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView, Alert} from 'react-native'
 import auth from '@react-native-firebase/auth';
 import { images } from '../../../assets/images';
+import {useSelector, useDispatch} from 'react-redux'
+import { updateDisplayName } from '../../actions/coinListAction';
 
 const AccountScreen = ({navigation}) => {
+    const dispatch = useDispatch() 
     const user = auth().currentUser
+    const url = useSelector(state => {
+        return state.updateProfile.url
+    })
     const [display, setDisplay] = useState(false)
     const [displayName, setDisplayName] = useState("")
     const [name, setName] = useState(user.displayName === null ? user.email.split("@")[0] : user.displayName)
+
+
     const updateName =() => {
         user.updateProfile({displayName: displayName})
         setName(displayName)
         setDisplay(!display)
         setDisplayName("")
+        dispatch(updateDisplayName(displayName))
     }
     return (
     <View style={styles.container}>
@@ -23,19 +32,21 @@ const AccountScreen = ({navigation}) => {
             </TouchableOpacity>
             <Text style = {styles.text}>Account Settings</Text>
         </View>
-        <ScrollView>
             <View style = {styles.content}>
                 <Text style = {{fontSize: 11}}>Avatar</Text>
-                <View style = {{flex: 1}}></View>
-                <Image style = {styles.img} source={images.acc}/>
-                <TouchableOpacity>
+                <View style = {styles.container}></View>
+                {user.photoURL === null ?  <Image style = {styles.img} source={images.acc}/>
+                    :  url === "" ? <Image  source={{uri: user.photoURL}} style={styles.img}/>
+                    : <Image  source={{uri: url}} style={styles.img}/>
+                }
+                <TouchableOpacity onPress={() => navigation.navigate("UploadImageScreen")}>
                     <Text style = {styles.icon}>{`>`}</Text>
                 </TouchableOpacity>
             </View>
 
             <View style = {styles.content}>
                 <Text style = {{fontSize: 11}}>Email address</Text>
-                <View style = {{flex: 1}}></View>
+                <View style = {styles.container}></View>
                 <Text style = {{fontSize: 11}}>{user.email}</Text>
                 <TouchableOpacity onPress={() => navigation.navigate("EmailScreen")}>
                     <Text style = {styles.icon}>{`>`}</Text>
@@ -43,7 +54,7 @@ const AccountScreen = ({navigation}) => {
             </View>
             <View style = {styles.content}>
                 <Text style = {{fontSize: 11}}>Display name</Text>
-                <View style = {{flex: 1}}></View>
+                <View style = {styles.container}></View>
                 <Text style = {{fontSize: 11}}>{name}</Text>
                 <TouchableOpacity onPress={() => setDisplay(!display)}>
                     <Text style = {styles.icon}>{`>`}</Text>
@@ -69,13 +80,11 @@ const AccountScreen = ({navigation}) => {
              
             <View style = {styles.content}>
                 <Text style = {{fontSize: 11}}>Change password</Text>
-                <View style = {{flex: 1}}></View>
+                <View style = {styles.container}></View>
                 <TouchableOpacity onPress={() => navigation.navigate("PassScreen")}>
                     <Text style = {styles.icon}>{`>`}</Text>
                 </TouchableOpacity>
-            </View>
-
-        </ScrollView>       
+            </View>     
     </View>
   )
 }
@@ -128,5 +137,11 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 10, 
         padding: 8
-    }
+    },
+    upload: {
+        fontSize: 20, 
+        marginTop: 10,
+        fontWeight: "bold"
+    },
+    
 });

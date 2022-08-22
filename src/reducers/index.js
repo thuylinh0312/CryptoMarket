@@ -1,12 +1,16 @@
 import { combineReducers } from 'redux'
-import coinListReducer from './coinListReducer'
 import coinListOptionReducer from './coinListOption'
 import favoriteCoinList from './favoriteCoinList'
 import searchCoinList from './searchCoinList'
+import updateProfileFirebase from './updateProfileFirebase'
+import chartCoinList from './chartCoinList'
+import newsCoinList from './newsCoinList'
 
 export default combineReducers({
-    coinList: coinListReducer,
     coinListOption: coinListOptionReducer,
     favoriteList: favoriteCoinList,
-    searchList: searchCoinList
+    searchList: searchCoinList,
+    updateProfile: updateProfileFirebase,
+    chartList: chartCoinList,
+    newsList: newsCoinList,
 })

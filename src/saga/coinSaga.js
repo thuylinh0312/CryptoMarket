@@ -2,12 +2,12 @@ import { call, put, takeEvery, all} from 'redux-saga/effects'
 import axios from 'axios';
 import { ApiUtil } from '../configs/ApiConfig';
 
-function* fetchCoinList(value) {
+function* fetchCoinList() {
     try {
-        const data = yield call(() => 
-        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&sort_dir=${value.sortSaga.sortDir}&limit=50&convert=USD,BTC${value.sortSaga.type}${value.sortSaga.sortValue}`)   
+        const data = yield call(() =>  
+        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&sort_dir=desc&limit=5000&convert=USD,BTC`) 
         );
-        yield put({type: "FETCH_COIN_LIST_SUCCESS", list: data.data.data});
+        yield put({type: "FETCH_COIN_LIST_SUCCESS", list: data.data.data });
     } catch (e) {
         console.log("error",e)
     }
@@ -16,14 +16,68 @@ function* coinListSaga() {
     yield takeEvery("FETCH_COIN_LIST_REQUESTED", fetchCoinList);
 }
 
+function* fetchChartCoinList(value) {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical?id=${value.value.idReducer}&convert=usd,btc&format=chart_crypto_details&interval=${value.value.time}&count=${value.value.num}`) 
+        );
+        yield put({type: "FETCH_CHART_COIN_LIST_SUCCESS", listValue: data.data.data});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* chartCoinListSaga() {
+    yield takeEvery("FETCH_CHART_COIN_LIST_REQUESTED", fetchChartCoinList);
+}
 
+function* fetchCandleChartCoinList(value) {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://web-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical?id=${value.value.idReducer}&convert=usd,btc&interval=${value.value.interval}&count=${value.value.count}&time_period=${value.value.time_period}`) 
+        );
+        yield put({type: "FETCH_CANDLE_CHART_COIN_LIST_SUCCESS", listValue: data.data.data.quotes.map(e => e.quote)});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* candleChartCoinListSaga() {
+    yield takeEvery("FETCH_CANDLE_CHART_COIN_LIST_REQUESTED", fetchCandleChartCoinList);
+}
+
+function* addMoreNews(page) {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://api.coinmarketcap.com/content/v3/news?page=${page.page}&size=20`) 
+        );
+        yield put({type: "ADD_MORE_NEWS_SUCCESS", moreData: data.data.data});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* addMoreNewsSaga() {
+    yield takeEvery("ADD_MORE_NEWS_REQUESTED", addMoreNews);
+}
+
+function* addMoreNewsId(value) {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://api.coinmarketcap.com/content/v3/news?page=${value.page}&size=20&coins=${value.id}`) 
+        );
+        yield put({type: "ADD_MORE_NEWS_ID_SUCCESS", moreData: data.data.data});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* addMoreNewsIdSaga() {
+    yield takeEvery("ADD_MORE_NEWS_ID_REQUESTED", addMoreNewsId);
+}
 
 function* fetchFavoriteList() {
     try {
         const data = yield call(() => 
         ApiUtil.callApi({url: 'app/get-favourites', method: 'GET'})
         );
-        yield put({type: "FETCH_FAVORITE_LIST_SUCCESS", favorite: data.data.favourites});
+        yield put({type: "FETCH_FAVORITE_LIST_SUCCESS", favorite: data.data ? data.data.favourites : []});
     } catch (e) {
         console.log("error",e)
     }
@@ -67,6 +121,10 @@ export default function* coinSaga () {
         coinListSaga(),
         favoriteListSaga(),
         addFavoriteListSaga(),
-        deleteFavoriteListSaga()
+        deleteFavoriteListSaga(),
+        chartCoinListSaga(),
+        candleChartCoinListSaga(),
+        addMoreNewsSaga(),
+        addMoreNewsIdSaga()
     ]) 
 }

@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react'
-import {View, Text, TouchableOpacity, TextInput, ActivityIndicator, FlatList, StyleSheet} from 'react-native'
+import {View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet} from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useSelector, useDispatch} from 'react-redux'
 import { changeSearchValue } from '../../actions/coinListAction'
 import { CoinListSeach } from './components/CoinListSearch';
-import { fetchCoinList } from '../../actions/coinListAction';
 
 
 const SearchScreen = ({navigation}) => {
@@ -13,22 +12,18 @@ const SearchScreen = ({navigation}) => {
       return state.searchList.searchValue
   })
   const list = useSelector(state => {
-    return state.coinList.list
+    return state.coinListOption.list
   })
   const listSearch = list.filter(e => e.name.toLowerCase().includes(searchValue) );
- 
-  const sortSaga = useSelector(state => {
-    return state.coinListOption
-  })
-  const getCoinList = async () => { dispatch(fetchCoinList(sortSaga)) }
-  useEffect(() => {
-      if(list.length === 0){getCoinList()}
-  },[]) 
 
   const ItemDivider = () => {
     return (
       <View style={styles.divider}/>
     );
+  }
+  const onBack = () => {
+    dispatch(changeSearchValue(""))
+    navigation.goBack()
   }
 
   return (
@@ -40,8 +35,9 @@ const SearchScreen = ({navigation}) => {
           onChangeText = {(str) => dispatch(changeSearchValue(str))}
         />
           
-        {searchValue === "" ? null : <Icon onPress={() => {dispatch(changeSearchValue(""))}} style={{marginRight:15}} name="closecircle" size={18} color="lightgray"/>}
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        {searchValue === "" ? null : 
+        <Icon onPress={() => {dispatch(changeSearchValue(""))}} style={{marginRight:15}} name="closecircle" size={18} color="lightgray"/>}
+        <TouchableOpacity onPress={() => onBack()}>
           <Text style = {styles.cancel}>Cancel</Text>
         </TouchableOpacity>
       </View>
@@ -53,7 +49,7 @@ const SearchScreen = ({navigation}) => {
           renderItem={({item, index}) => { 
             return (
               <View style = {styles.item}>
-                <CoinListSeach item={item} />
+                <CoinListSeach item={item} navigation = {navigation}/>
               </View>                
             )     
           }}

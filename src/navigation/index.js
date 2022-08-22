@@ -10,6 +10,8 @@ import PassScreen from '../screens/AccountScreen/PassScreen';
 import EmailScreen from '../screens/AccountScreen/EmailScreen';
 import LoadingScreen from '../screens/LoadingScreen';
 import SettingScreen from '../screens/SettingScreen';
+import UploadImageScreen from '../screens/AccountScreen/UploadImageScreen';
+import OverviewScreen from '../screens/OverviewScreen';
 import { Tabs } from './tabbottom';
 import DrawerComponent from './drawer';
 
@@ -36,10 +38,12 @@ export const AppNavigation = () => {
         <Stack.Screen  name='SignupScreen' component={SignupScreen} />
         <Stack.Screen  name='AccountScreen' component={AccountScreen} />
         <Stack.Screen  name='PassScreen' component={PassScreen} />
+        <Stack.Screen  name='UploadImageScreen' component={UploadImageScreen} />
         <Stack.Screen  name='EmailScreen' component={EmailScreen} />
         <Stack.Screen  name='LoadingScreen' component={LoadingScreen} />
         <Stack.Screen  name='SettingScreen' component={SettingScreen} />
         <Stack.Screen  name='DrawerScreen' component={DrawerScreen} />
+        <Stack.Screen  name='OverviewScreen' component={OverviewScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

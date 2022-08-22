@@ -1,6 +1,30 @@
-export const fetchCoinList = (sortSaga) => ({
-  sortSaga,
+
+export const addMoreNews = (page) => ({
+  page,
+  type: 'ADD_MORE_NEWS_REQUESTED'
+})
+export const addMoreNewsId = (id, page) => ({
+  id,
+  page,
+  type: 'ADD_MORE_NEWS_ID_REQUESTED'
+})
+export const resetNews = () => ({
+  type: 'RESET_NEWS'
+})
+export const addList = (list) => ({
+  list,
+  type: 'ADD_LIST'
+})
+export const fetchCoinList = () => ({
   type: 'FETCH_COIN_LIST_REQUESTED'
+})
+export const fetchChartCoinList = (value) => ({
+  value,
+  type: 'FETCH_CHART_COIN_LIST_REQUESTED'
+})
+export const fetchCandleChartCoinList = (value) => ({
+  value,
+  type: 'FETCH_CANDLE_CHART_COIN_LIST_REQUESTED'
 })
 export const fetchFavoriteList = () => ({
   type: 'FETCH_FAVORITE_LIST_REQUESTED'
@@ -12,9 +36,6 @@ export const addFavoriteList = (id) => ({
 export const deleteFavoriteList = (id) => ({
   id,
   type: 'DELETE_FAVORITE_LIST_REQUESTED'
-})
-export const resetCoinList = () => ({
-  type: 'RESET_COIN_LIST'
 })
 
 export const percentChangeCoinList = ({percentValue}) => ({
@@ -43,4 +64,28 @@ export const changeSearchValue = (str) => ({
 })
 export const openFavoriteList = () => ({
   type: 'OPEN_FAVORITE_LIST'
+})
+export const uploadImage = (path) => ({
+  path,
+  type: 'UPLOAD_IMAGE'
+})
+export const updateDisplayName = (str) => ({
+  str,
+  type: 'UPDATE_DISPLAY_NAME'
+})
+export const setId = (str) => ({
+  str,
+  type: 'SET_ID'
+})
+export const setValue = (str) => ({
+  str,
+  type: 'SET_VALUE'
+})
+export const setDisplayPrice = (value) => ({
+  value,
+  type: 'SET_DISPLAY_PRICE'
+})
+export const setDisplayTime = (time) => ({
+  time,
+  type: 'SET_DISPLAY_TIME'
 })
