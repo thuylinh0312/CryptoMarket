@@ -89,3 +89,6 @@ export const setDisplayTime = (time) => ({
   time,
   type: 'SET_DISPLAY_TIME'
 })
+export const converter = () => ({
+  type: 'CONVERTER_REQUESTED'
+})

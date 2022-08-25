@@ -5,6 +5,7 @@ import searchCoinList from './searchCoinList'
 import updateProfileFirebase from './updateProfileFirebase'
 import chartCoinList from './chartCoinList'
 import newsCoinList from './newsCoinList'
+import converterPrice from './converterPrice'
 
 export default combineReducers({
     coinListOption: coinListOptionReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
     updateProfile: updateProfileFirebase,
     chartList: chartCoinList,
     newsList: newsCoinList,
+    converter: converterPrice,
 })

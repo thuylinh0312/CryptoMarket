@@ -50,7 +50,7 @@ const DrawerComponent = (props) => {
                     <Text style = {styles.tool}>Price Alert</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity >
+                <TouchableOpacity onPress={() => props.navigation.navigate("ConverterScreen")}>
                     <Text style = {styles.tool}>Converter</Text>
                 </TouchableOpacity>
             

@@ -16,6 +16,20 @@ function* coinListSaga() {
     yield takeEvery("FETCH_COIN_LIST_REQUESTED", fetchCoinList);
 }
 
+function* converterPrice() {
+    try {
+        const data = yield call(() =>  
+        axios.get(`https://api.coinmarketcap.com/data-api/v3/tools/price-conversion?amount=1&convert_id=2781&id=1`) 
+        );
+        yield put({type: "CONVERTER_SUCCESS", usd: data.data.data.quote[0].price.toFixed(2)});
+    } catch (e) {
+        console.log("error",e)
+    }
+}
+function* converterSaga() {
+    yield takeEvery("CONVERTER_REQUESTED", converterPrice);
+}
+
 function* fetchChartCoinList(value) {
     try {
         const data = yield call(() =>  
@@ -125,6 +139,7 @@ export default function* coinSaga () {
         chartCoinListSaga(),
         candleChartCoinListSaga(),
         addMoreNewsSaga(),
-        addMoreNewsIdSaga()
+        addMoreNewsIdSaga(),
+        converterSaga() 
     ]) 
 }
